@@ -522,8 +522,9 @@
             <div style="color:var(--gold-light); font-weight:bold; font-size:1.1em; cursor:pointer;" onclick="closeModal('pdfPreviewModal')">
                 <i class="fa-solid fa-arrow-left"></i> BACK
             </div>
+            <!-- UPDATED BUTTON FOR APP SUPPORT -->
             <button class="gold-btn" onclick="downloadPDF()" id="actualDownloadBtn" style="padding: 10px 15px; font-size: 0.85em;">
-                <i class="fa-solid fa-download"></i> SAVE PDF
+                <i class="fa-solid fa-share-nodes"></i> SHARE / SAVE
             </button>
         </div>
         <div class="preview-body">
@@ -1049,7 +1050,6 @@
             currentLedgerData.records.forEach(r => {
                 totalAmount += parseFloat(r.amount);
                 let niceDate = formatCustomDate(r.date);
-                // Added color: #000 !important; to make text fully visible on white background
                 tableRows += `
                     <tr>
                         <td style="border: 1px solid #000; padding: 10px; text-align: center; color: #000 !important; font-weight: 500;">Week ${r.week}</td>
@@ -1114,27 +1114,53 @@
             document.getElementById('pdfPreviewModal').style.display = 'flex';
         }
 
+        // APP-LEVEL NATIVE SHARE FIX
         function downloadPDF() {
             let btn = document.getElementById('actualDownloadBtn');
             let originalText = btn.innerHTML;
-            btn.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i> SAVING...`;
+            btn.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i> GENERATING...`;
             btn.disabled = true;
 
             let element = document.getElementById('paperContent');
+            let pdfName = `MLP_Ledger_${currentLedgerData.name}.pdf`;
             
             var opt = {
                 margin:       0.2,
-                filename:     `MLP_Ledger_${currentLedgerData.name}.pdf`,
+                filename:     pdfName,
                 image:        { type: 'jpeg', quality: 0.98 },
                 html2canvas:  { scale: 2, useCORS: true },
                 jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
             };
 
-            html2pdf().set(opt).from(element).save().then(() => {
-                btn.innerHTML = originalText;
-                btn.disabled = false;
+            // Generate PDF as Blob for Sharing
+            html2pdf().set(opt).from(element).outputPdf('blob').then(function(pdfBlob) {
+                let file = new File([pdfBlob], pdfName, { type: 'application/pdf' });
+                
+                // Try Native Mobile Share (Opens WhatsApp, Drive, File Manager directly)
+                if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                    navigator.share({
+                        files: [file],
+                        title: 'MLP Ledger PDF',
+                        text: 'Customer Ledger PDF File'
+                    }).then(() => {
+                        btn.innerHTML = originalText;
+                        btn.disabled = false;
+                    }).catch(err => {
+                        // Fallback to Save if user cancels share
+                        html2pdf().set(opt).from(element).save().then(() => {
+                            btn.innerHTML = originalText;
+                            btn.disabled = false;
+                        });
+                    });
+                } else {
+                    // Fallback to normal download if share is not supported
+                    html2pdf().set(opt).from(element).save().then(() => {
+                        btn.innerHTML = originalText;
+                        btn.disabled = false;
+                    });
+                }
             }).catch(err => {
-                alert("PDF saving failed!");
+                html2pdf().set(opt).from(element).save();
                 btn.innerHTML = originalText;
                 btn.disabled = false;
             });

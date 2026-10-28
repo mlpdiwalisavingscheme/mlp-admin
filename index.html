@@ -4,16 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="theme-color" content="#001533">
-    
+
     <title>MLP Admin App</title>
-    
+
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
+
     <!-- PDF Generation Library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-    
+
     <style>
         :root {
             --royal-blue: #001533;
@@ -62,7 +62,7 @@
             transition: transform 0.2s;
             text-transform: uppercase;
         }
-        
+
         .gold-btn:active { transform: scale(0.95); }
 
         .gold-btn-outline {
@@ -77,7 +77,7 @@
             transition: all 0.2s;
             display: flex; align-items: center; justify-content: center; gap: 8px;
         }
-        
+
         .gold-btn-outline:active { background: rgba(212, 175, 55, 0.1); }
 
         /* LOGIN SCREEN */
@@ -100,7 +100,7 @@
         }
         .input-field::placeholder { color: rgba(212, 175, 55, 0.5); font-weight: normal; }
         .input-field:focus { outline: none; box-shadow: 0 0 15px rgba(212, 175, 55, 0.4); border-color: var(--gold-light); }
-        
+
         .login-btn {
             background: var(--gold-gradient); color: var(--royal-blue);
             border: none; padding: 15px; border-radius: 30px; font-weight: 800; font-size: 1.2em;
@@ -119,21 +119,21 @@
             padding: calc(env(safe-area-inset-top, 0px) + 15px) 20px 15px 20px;
             z-index: 1000; box-shadow: 0 4px 15px rgba(0,0,0,0.5);
         }
-        
+
         .header-left { display: flex; align-items: center; gap: 15px; }
         .menu-icon { font-size: 1.5em; color: var(--gold); cursor: pointer; padding: 5px; }
-        
+
         .header-logo { display: flex; align-items: center; gap: 10px; }
         .header-logo img { height: 35px; border-radius: 4px; }
         .header-title { font-size: 1.3em; color: var(--gold-light); letter-spacing: 1px;}
-        
+
         .menu-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.6); z-index: 1999; display: none;
             opacity: 0; transition: opacity 0.3s;
         }
         .menu-overlay.show { display: block; opacity: 1; }
-        
+
         .side-menu {
             position: fixed; top: 0; left: -280px; width: 260px; height: 100%;
             background: var(--royal-blue); z-index: 2000; transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -141,13 +141,13 @@
             box-shadow: 5px 0 15px rgba(0,0,0,0.5);
         }
         .side-menu.open { left: 0; }
-        
+
         .menu-header {
             padding: 20px; border-bottom: 1px solid rgba(212, 175, 55, 0.3);
             text-align: center; margin-bottom: 10px;
         }
         .menu-header img { height: 60px; filter: drop-shadow(0 2px 5px rgba(212, 175, 55, 0.3));}
-        
+
         .menu-item {
             display: flex; align-items: center; gap: 15px; padding: 18px 25px; color: var(--text-color); text-decoration: none;
             font-size: 1.1em; border-bottom: 1px solid rgba(212, 175, 55, 0.1); font-weight: 500;
@@ -169,7 +169,7 @@
         .c-name { font-size: 1.2em; font-weight: 700; color: var(--gold-light); margin-bottom: 5px; font-family: 'Cinzel', serif;}
         .c-phone { font-size: 0.95em; color: #ddd; display: flex; align-items: center; gap: 5px;}
         .c-scheme { display: inline-block; background: rgba(212, 175, 55, 0.15); color: var(--gold-light); border: 1px solid var(--gold); padding: 4px 8px; border-radius: 6px; font-size: 0.8em; font-weight: bold; }
-        
+
         .card-actions { display: flex; gap: 10px; width: 100%;}
         .card-actions button { flex: 1; padding: 12px 0; font-size: 0.95em; display: flex; justify-content: center; align-items: center; gap: 8px;}
 
@@ -202,20 +202,20 @@
             border-top: 2px solid var(--gold); position: relative; max-height: 90vh; overflow-y: auto;
             box-shadow: 0 -10px 25px rgba(0,0,0,0.5);
         }
-        
+
         .sheet-handle {
             width: 40px; height: 5px; background: rgba(212, 175, 55, 0.4); border-radius: 3px;
             margin: -15px auto 20px auto;
         }
-        
+
         .close-modal { position: absolute; top: 20px; right: 20px; font-size: 1.5em; color: rgba(212, 175, 55, 0.6); cursor: pointer; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: rgba(255,255,255,0.05);}
         .close-modal:active { background: rgba(212, 175, 55, 0.2); }
-        
+
         .info-box { background: rgba(0, 43, 102, 0.4); border: 1px solid rgba(212, 175, 55, 0.3); padding: 15px; border-radius: 12px; margin-bottom: 20px; cursor: pointer; transition: 0.2s;}
         .info-box:active { background: rgba(212, 175, 55, 0.1); }
         .info-box.no-click { cursor: default; }
         .info-box.no-click:active { background: rgba(0, 43, 102, 0.4); }
-        
+
         table { width: 100%; border-collapse: collapse; font-size: 0.95em; margin-top: 10px; }
         th { background: rgba(212, 175, 55, 0.15); color: var(--gold-light); padding: 12px 10px; border-bottom: 2px solid var(--gold); text-align: center; font-weight: 600;}
         td { padding: 12px 10px; border-bottom: 1px solid rgba(212, 175, 55, 0.15); text-align: center; color: #ddd;}
@@ -259,7 +259,7 @@
         .loader { text-align: center; color: var(--gold-light); font-weight: bold; margin-top: 50px; font-size: 1.2em; display: flex; flex-direction: column; align-items: center; gap: 15px;}
         .spinner { border: 4px solid rgba(212, 175, 55, 0.2); width: 40px; height: 40px; border-radius: 50%; border-left-color: var(--gold); animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        
+
         .whatsapp-link { display: none; }
     </style>
 </head>
@@ -278,7 +278,7 @@
 
     <!-- MAIN APP SCREEN -->
     <div id="appScreen" style="display: none;">
-        
+
         <header>
             <div class="header-left">
                 <div class="menu-icon" onclick="toggleMenu()"><i class="fa-solid fa-bars"></i></div>
@@ -290,17 +290,17 @@
         </header>
 
         <div class="menu-overlay" id="menuOverlay" onclick="toggleMenu()"></div>
-        
+
         <div class="side-menu" id="sideMenu">
             <div class="menu-header">
                 <img src="1000087690.png" alt="MLP Logo">
                 <h3 class="gold-text" style="margin-top: 10px; font-size: 1.1em;">ADMINISTRATOR</h3>
             </div>
-            
+
             <a href="#" class="menu-item" onclick="toggleMenu(); switchTab('customers')">
                 <i class="fa-solid fa-gift"></i> MLP DSS
             </a>
-            
+
             <a href="#" class="menu-item" onclick="alert('MLPFIN Module Coming Soon!'); toggleMenu();">
                 <i class="fa-solid fa-coins"></i> MLPFIN
             </a>
@@ -311,7 +311,7 @@
         </div>
 
         <div class="app-content">
-            
+
             <!-- TAB 1: CUSTOMERS -->
             <div id="tab-customers">
                 <div style="display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-top: 5px;">
@@ -321,7 +321,7 @@
                     </div>
                     <button class="gold-btn" onclick="openAddCustomerModal()" style="padding: 12px 15px; white-space: nowrap; border-radius: 30px; font-size: 0.85em;"><i class="fa-solid fa-user-plus"></i> Add Customer</button>
                 </div>
-                
+
                 <div id="loadingCustomers" class="loader"><div class="spinner"></div>Loading Data...</div>
                 <div id="customerList" style="margin-top: 15px;"></div>
             </div>
@@ -345,7 +345,7 @@
                 <div id="dashCustomerView" class="dash-detail-view">
                     <table><thead style="position: sticky; top:0; background: var(--royal-blue);"><tr><th style="text-align:left;">Customer Name</th><th>Total Paid</th></tr></thead><tbody id="dashCustomerBody"></tbody></table>
                 </div>
-                
+
                 <div id="dashDateView" class="dash-detail-view">
                     <table><thead style="position: sticky; top:0; background: var(--royal-blue);"><tr><th>Date</th><th>Total Collection</th></tr></thead><tbody id="dashDateBody"></tbody></table>
                 </div>
@@ -359,12 +359,12 @@
             <!-- TAB 3: WEEK COLLECTION -->
             <div id="tab-collection" style="display: none;">
                 <h2 class="gold-text" style="margin-bottom: 15px; text-align: center;"><i class="fa-solid fa-calendar-check"></i> Week Collection</h2>
-                
+
                 <div style="background: rgba(0, 43, 102, 0.4); border: 1px solid rgba(212, 175, 55, 0.3); padding: 15px; border-radius: 12px; margin-bottom: 20px;">
                     <label style="color: #ddd; font-weight: 600; font-size: 0.9em; display: block; margin-bottom: 8px;">Select Date to Filter:</label>
                     <input type="date" id="filterDate" class="input-field" style="margin: 0; padding: 12px; font-size: 1em; letter-spacing: normal;" onchange="filterByDate()">
                 </div>
-                
+
                 <div class="info-box no-click" style="text-align: center; margin-top: 10px; background: rgba(212, 175, 55, 0.05);">
                     <div style="font-size: 0.9em; color: #ddd; text-transform: uppercase; letter-spacing: 1px;">Collection Amount</div>
                     <div id="dateTotalAmt" style="font-size: 2em; font-weight: bold; color: var(--gold-light); margin-top: 5px;">₹0</div>
@@ -373,11 +373,11 @@
                 <div id="dateFilterList" style="margin-top: 15px; background: rgba(0, 43, 102, 0.3); border-radius: 12px; overflow: hidden; border: 1px solid rgba(212, 175, 55, 0.2);">
                 </div>
             </div>
-            
+
             <!-- TAB 4: ADMIN CONTROL -->
             <div id="tab-admin" style="display: none;">
                 <h2 class="gold-text" style="margin-bottom: 20px; text-align: center;"><i class="fa-solid fa-gear"></i> Admin Control</h2>
-                
+
                 <div class="info-box no-click">
                     <div style="display: flex; justify-content: space-between; align-items: center;">
                         <div>
@@ -390,7 +390,7 @@
                         </label>
                     </div>
                 </div>
-                
+
                 <button class="gold-btn-outline" style="width: 100%; margin-top: 30px; color: #ff6b6b; border-color: rgba(255,107,107,0.4);" onclick="logout()">
                     <i class="fa-solid fa-right-from-bracket"></i> SECURE LOGOUT
                 </button>
@@ -425,18 +425,18 @@
         <div class="bottom-sheet">
             <div class="sheet-handle"></div>
             <div class="close-modal" onclick="closeModal('addCustomerModal')"><i class="fa-solid fa-xmark"></i></div>
-            
+
             <h2 class="gold-text" style="text-align: center; margin-bottom: 20px; font-size: 1.5em;"><i class="fa-solid fa-user-plus"></i> Add New Customer</h2>
-            
+
             <label style="color: #ddd; font-weight: 600; font-size: 0.9em; display: block; margin-bottom: 5px;">Customer Name</label>
             <input type="text" id="newCustName" class="input-field" style="text-align: left; letter-spacing: normal;" placeholder="Enter Name">
-            
+
             <label style="color: #ddd; font-weight: 600; font-size: 0.9em; display: block; margin-top: 15px; margin-bottom: 5px;">Mobile Number</label>
             <input type="tel" id="newCustPhone" class="input-field" maxlength="10" style="text-align: left; letter-spacing: normal;" placeholder="10-digit mobile number">
-            
+
             <label style="color: #ddd; font-weight: 600; font-size: 0.9em; display: block; margin-top: 15px; margin-bottom: 5px;">Number of Schemes</label>
             <input type="number" id="newCustSchemes" class="input-field" value="1" min="1" style="text-align: left; letter-spacing: normal;" placeholder="1">
-            
+
             <button class="login-btn" id="submitAddCustBtn" onclick="submitNewCustomer()" style="margin-top: 25px;"><i class="fa-solid fa-check"></i> SAVE CUSTOMER</button>
         </div>
     </div>
@@ -446,12 +446,12 @@
         <div class="bottom-sheet">
             <div class="sheet-handle"></div>
             <div class="close-modal" onclick="closeModal('payModal')"><i class="fa-solid fa-xmark"></i></div>
-            
+
             <div style="text-align: center; margin-bottom: 20px;">
                 <h2 class="gold-text" id="payName" style="font-size: 1.6em; margin-bottom: 5px;">Name</h2>
                 <p id="payPhone" style="color: #aaa; margin: 0; font-size: 1em;"><i class="fa-solid fa-phone" style="font-size:0.8em; margin-right:5px;"></i> <span id="payPhoneText">Phone</span></p>
             </div>
-            
+
             <div class="info-box no-click" style="display: flex; justify-content: space-around; text-align: center; padding: 15px 10px;">
                 <div>
                     <div style="font-size:0.85em; color:#aaa; margin-bottom:3px;">Schemes</div>
@@ -460,13 +460,13 @@
                 <div style="width:1px; background:rgba(212, 175, 55, 0.3);"></div>
                 <div>
                     <div style="font-size:0.85em; color:#aaa; margin-bottom:3px;">Base/Week</div>
-                    <div style="color: var(--gold-light); font-weight:bold; font-size:1.2em;" id="payBaseAmt">₹200</div>
+                    <div style="color: var(--gold-light); font-weight:bold; font-size:1.2em;" id="payBaseAmt">₹100</div>
                 </div>
             </div>
 
             <label style="color: #ddd; font-weight: 600; font-size: 0.9em; display: block; text-align: center;">Enter Amount (Multiples of Base Amount)</label>
             <input type="number" id="payInput" class="input-field" style="font-size: 1.5em; padding: 20px;" placeholder="₹0" oninput="calculateWeeks()">
-            
+
             <div id="payCalcMsg" style="text-align: center; font-weight: bold; margin-top: -5px; margin-bottom: 20px; font-size: 0.95em; min-height: 20px;"></div>
 
             <button class="login-btn" id="submitPayBtn" onclick="submitPayment()" style="margin-top: 0;"><i class="fa-brands fa-whatsapp" style="font-size: 1.2em; margin-right: 8px;"></i> CONFIRM PAY</button>
@@ -479,7 +479,7 @@
         <div class="bottom-sheet">
             <div class="sheet-handle"></div>
             <div class="close-modal" onclick="closeModal('ledgerModal')"><i class="fa-solid fa-xmark"></i></div>
-            
+
             <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
                 <div>
                     <h2 class="gold-text" id="legName" style="font-size: 1.4em; margin-bottom: 5px;">Name</h2>
@@ -504,7 +504,7 @@
             </div>
 
             <div id="ledgerLoader" class="loader" style="margin-top: 20px; display: none;"><div class="spinner"></div>Loading Ledger...</div>
-            
+
             <div style="max-height: 250px; overflow-y: auto; border: 1px solid rgba(212,175,55,0.3); border-radius: 12px; background: rgba(0, 43, 102, 0.3);">
                 <table>
                     <thead style="position: sticky; top: 0; background: var(--royal-blue); z-index: 10;">
@@ -589,7 +589,7 @@
         function toggleMenu() {
             let menu = document.getElementById('sideMenu');
             let overlay = document.getElementById('menuOverlay');
-            
+
             if(menu.classList.contains('open')) {
                 menu.classList.remove('open');
                 overlay.classList.remove('show');
@@ -604,7 +604,7 @@
             document.getElementById('tab-dashboard').style.display = 'none';
             document.getElementById('tab-collection').style.display = 'none';
             document.getElementById('tab-admin').style.display = 'none';
-            
+
             document.getElementById('nav-customers').classList.remove('active');
             document.getElementById('nav-dashboard').classList.remove('active');
             document.getElementById('nav-collection').classList.remove('active');
@@ -612,7 +612,7 @@
 
             document.getElementById('tab-' + tab).style.display = 'block';
             document.getElementById('nav-' + tab).classList.add('active');
-            
+
             if(tab === 'dashboard') {
                 document.getElementById('dashCustomerView').style.display = 'none';
                 document.getElementById('dashDateView').style.display = 'none';
@@ -635,7 +635,7 @@
         function toggleMaintenance() {
             let toggle = document.getElementById('maintToggle');
             isMaintenanceOn = toggle.checked;
-            
+
             fetch(`${SCRIPT_URL}?action=toggleMaintenance&status=${isMaintenanceOn}&t=${Date.now()}`)
                 .then(res => res.json())
                 .then(data => { console.log("Maintenance updated"); })
@@ -651,7 +651,7 @@
             document.getElementById('customerList').innerHTML = '';
             custTotalAmtObj = {};
             dailyTotalObj = {};
-            
+
             fetch(`${SCRIPT_URL}?action=getCustomers&t=${Date.now()}`)
                 .then(res => res.json())
                 .then(data => {
@@ -674,10 +674,10 @@
                         allPayments.forEach(p => {
                             let amt = parseFloat(p.amount) || 0;
                             total += amt;
-                            
+
                             p.rawDate = p.date;
                             p.date = formatCustomDate(p.rawDate);
-                            
+
                             let ph = p.phone || "unknown";
                             if(!custTotalAmtObj[ph]) custTotalAmtObj[ph] = {name: p.name, amt: 0};
                             custTotalAmtObj[ph].amt += amt;
@@ -689,7 +689,7 @@
                             }
                         });
                         document.getElementById('dashCollAmount').innerText = `₹${total}`;
-                        
+
                         let today = new Date().toISOString().split('T')[0];
                         document.getElementById('filterDate').value = today;
                         filterByDate();
@@ -701,17 +701,17 @@
         function renderCustomers(list) {
             let container = document.getElementById('customerList');
             container.innerHTML = '';
-            
+
             if(list.length === 0) {
                 container.innerHTML = '<p style="text-align:center; color:#aaa; margin-top:20px;">No customers found.</p>';
                 return;
             }
-            
+
             list.forEach(c => {
                 if(!c.name && !c.phone) return;
-                
+
                 let sCount = parseInt(c.schemes) || 1;
-                
+
                 container.innerHTML += `
                     <div class="card">
                         <div class="card-top">
@@ -820,7 +820,7 @@
         function renderDashDateList() {
             let body = document.getElementById('dashDateBody');
             let html = '';
-            
+
             let sortedDates = Object.keys(dailyTotalObj).sort((a,b) => {
                 try {
                     let pa = a.split('-'); let pb = b.split('-');
@@ -829,11 +829,11 @@
                     return db - da; 
                 } catch(e) { return 0; }
             });
-            
+
             sortedDates.forEach(d => {
                 html += `<tr><td>${d}</td><td style="color:var(--gold-light); font-weight:bold;">₹${dailyTotalObj[d]}</td></tr>`;
             });
-            
+
             if(html === '') html = '<tr><td colspan="2" style="color:#aaa;">No data found</td></tr>';
             body.innerHTML = html;
         }
@@ -842,7 +842,7 @@
         function renderChart() {
             let ctx = document.getElementById('dailyChart');
             if(!ctx) return;
-            
+
             let sortedDates = Object.keys(dailyTotalObj).sort((a,b) => {
                 try {
                     let pa = a.split('-'); let pb = b.split('-');
@@ -851,16 +851,16 @@
                     return da - db; 
                 } catch(e) { return 0; }
             });
-            
+
             let recentDates = sortedDates.slice(-7);
-            
+
             let labels = recentDates.map(d => {
                 return d.substring(0, 5); 
             });
             let data = recentDates.map(d => dailyTotalObj[d]);
 
             if(myChart) myChart.destroy();
-            
+
             Chart.defaults.color = '#f0e6d2';
             Chart.defaults.font.family = 'Outfit';
 
@@ -892,20 +892,20 @@
 
         function openPay(name, phone, schemes) {
             selectedCustomer = {name, phone, schemes};
-            selectedBaseAmount = schemes * 200;
-            
+            selectedBaseAmount = schemes * 100;
+
             document.getElementById('payName').innerText = name;
             document.getElementById('payPhoneText').innerText = phone;
             document.getElementById('paySchemes').innerText = schemes;
             document.getElementById('payBaseAmt').innerText = `₹${selectedBaseAmount}`;
             document.getElementById('payInput').value = '';
             document.getElementById('payCalcMsg').innerText = '';
-            
+
             document.getElementById('payModal').style.display = 'flex';
 
             document.getElementById('submitPayBtn').innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i> LOADING...`;
             document.getElementById('submitPayBtn').disabled = true;
-            
+
             fetch(`${SCRIPT_URL}?phone=${encodeURIComponent(phone)}&t=${Date.now()}`)
                 .then(res => res.json())
                 .then(data => {
@@ -923,11 +923,11 @@
             let amt = parseFloat(document.getElementById('payInput').value) || 0;
             let msgBox = document.getElementById('payCalcMsg');
             let btn = document.getElementById('submitPayBtn');
-            
+
             if(btn.innerHTML.includes('LOADING')) return; 
-            
+
             if(amt === 0 || isNaN(amt)) { msgBox.innerText = ''; btn.disabled = true; return; }
-            
+
             if(amt % selectedBaseAmount !== 0) {
                 msgBox.style.color = '#ff6b6b';
                 msgBox.innerHTML = `<i class="fa-solid fa-circle-exclamation"></i> Amount must be multiples of ₹${selectedBaseAmount}`;
@@ -944,7 +944,7 @@
             let amt = parseFloat(document.getElementById('payInput').value) || 0;
             let weeksToRecord = amt / selectedBaseAmount;
             let startWeek = selectedPaidWeeks + 1; 
-            
+
             let btn = document.getElementById('submitPayBtn');
             btn.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i> SAVING...`; 
             btn.disabled = true;
@@ -954,7 +954,7 @@
             let month = String(now.getMonth() + 1).padStart(2, '0');
             let year = now.getFullYear();
             let dateStr = `${day}-${month}-${year}`; 
-            
+
             let payloadRecords = []; 
             for(let i=0; i<weeksToRecord; i++) { 
                payloadRecords.push({ 
@@ -976,10 +976,10 @@
                 if(data.status === "Success") {
                     closeModal('payModal');
                     loadInitialData(); 
-                    
+
                     let msg = `Dear ${selectedCustomer.name},\n\nWe have received your MLP Diwali Saving Scheme payment.\n\nAmount: ₹${amt}\nCalculated for: ${weeksToRecord} week(s)\n\nThank you!\n~ MLP Management`;
                     let waUrl = `https://wa.me/91${selectedCustomer.phone}?text=${encodeURIComponent(msg)}`;
-                    
+
                     let link = document.getElementById('waLink');
                     link.href = waUrl;
                     link.click();
@@ -1002,11 +1002,11 @@
             document.getElementById('legPhone').innerText = phone;
             document.getElementById('ledgerTableBody').innerHTML = '';
             document.getElementById('ledgerLoader').style.display = 'flex';
-            
+
             document.getElementById('legPaidWeeks').innerText = '0';
             document.getElementById('legPendingWeeks').innerText = '52';
             document.getElementById('legTotalAmt').innerText = '₹0';
-            
+
             document.getElementById('ledgerModal').style.display = 'flex';
 
             fetch(`${SCRIPT_URL}?phone=${encodeURIComponent(phone)}&t=${Date.now()}`)
@@ -1039,7 +1039,7 @@
 
         function previewPDF() {
             if(!currentLedgerData) return;
-            
+
             let btn = document.getElementById('previewBtn');
             let originalText = btn.innerHTML;
             btn.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i> Loading...`;
@@ -1107,10 +1107,10 @@
             `;
 
             document.getElementById('paperContent').innerHTML = pdfHTML;
-            
+
             btn.innerHTML = originalText;
             btn.disabled = false;
-            
+
             document.getElementById('pdfPreviewModal').style.display = 'flex';
         }
 
@@ -1123,7 +1123,7 @@
 
             let element = document.getElementById('paperContent');
             let pdfName = `MLP_Ledger_${currentLedgerData.name}.pdf`;
-            
+
             var opt = {
                 margin:       0.2,
                 filename:     pdfName,
@@ -1135,7 +1135,7 @@
             // Generate PDF as Blob for Sharing
             html2pdf().set(opt).from(element).outputPdf('blob').then(function(pdfBlob) {
                 let file = new File([pdfBlob], pdfName, { type: 'application/pdf' });
-                
+
                 // Try Native Mobile Share (Opens WhatsApp, Drive, File Manager directly)
                 if (navigator.canShare && navigator.canShare({ files: [file] })) {
                     navigator.share({
@@ -1169,20 +1169,20 @@
         function filterByDate() {
             let selectedDateStr = document.getElementById('filterDate').value; 
             let tbody = document.getElementById('dateFilterList');
-            
+
             if(!selectedDateStr || allPayments.length === 0) {
                 tbody.innerHTML = '<div style="padding: 20px; text-align: center; color: #aaa;">No data available</div>';
                 return;
             }
-            
+
             let parts = selectedDateStr.split('-');
             let checkFormat1 = `${parts[2]}-${parts[1]}-${parts[0]}`; 
 
             let filtered = allPayments.filter(p => p.date === checkFormat1);
-            
+
             let total = 0;
             let html = '<table><thead><tr><th>Date</th><th style="text-align:left;">Name</th><th>Amount</th></tr></thead><tbody>';
-            
+
             if(filtered.length === 0) {
                 html += '<tr><td colspan="3" style="color:#aaa; padding: 20px;">No collections found for this date.</td></tr>';
             } else {

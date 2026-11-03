@@ -34,7 +34,7 @@
             color: var(--text-color);
             width: 100%; min-height: 100vh;
             overflow-x: hidden;
-            -webkit-touch-callout: none;
+            -webkit-touch-callout: none; /* Disable default long-press menu */
             -webkit-user-select: none;
         }
 
@@ -123,7 +123,7 @@
         input:checked + .slider { background-color: #ff6b6b; border-color: #ff6b6b;}
         input:checked + .slider:before { transform: translateX(22px); background-color: #fff;}
 
-        /* PDF PREVIEW MODAL */
+        /* PDF PREVIEW MODAL (FULL SCREEN) */
         #pdfPreviewModal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #e0e0e0; z-index: 4000; display: none; flex-direction: column; }
         .preview-header { background: var(--royal-blue); padding: calc(env(safe-area-inset-top, 0px) + 15px) 20px 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--gold); box-shadow: 0 4px 10px rgba(0,0,0,0.3); z-index: 10; }
         .preview-body { flex: 1; overflow-y: auto; padding: 20px; display: flex; justify-content: center; align-items: flex-start; padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 20px); }
@@ -344,13 +344,18 @@
         <div class="bottom-sheet">
             <div class="sheet-handle"></div>
             <div class="close-modal" onclick="closeModal('addCustomerModal')"><i class="fa-solid fa-xmark"></i></div>
+
             <h2 class="gold-text" style="text-align: center; margin-bottom: 20px; font-size: 1.5em;"><i class="fa-solid fa-user-plus"></i> Add DSS Customer</h2>
+
             <label style="color: #ddd; font-weight: 600; font-size: 0.9em; display: block; margin-bottom: 5px;">Customer Name</label>
             <input type="text" id="newCustName" class="input-field" style="text-align: left; letter-spacing: normal;" placeholder="Enter Name">
+
             <label style="color: #ddd; font-weight: 600; font-size: 0.9em; display: block; margin-top: 15px; margin-bottom: 5px;">Mobile Number</label>
             <input type="tel" id="newCustPhone" class="input-field" maxlength="10" style="text-align: left; letter-spacing: normal;" placeholder="10-digit mobile number">
+
             <label style="color: #ddd; font-weight: 600; font-size: 0.9em; display: block; margin-top: 15px; margin-bottom: 5px;">Number of Schemes</label>
             <input type="number" id="newCustSchemes" class="input-field" value="1" min="1" style="text-align: left; letter-spacing: normal;" placeholder="1">
+
             <button class="login-btn" id="submitAddCustBtn" onclick="submitNewCustomer()" style="margin-top: 25px;"><i class="fa-solid fa-check"></i> SAVE CUSTOMER</button>
         </div>
     </div>
@@ -360,18 +365,28 @@
         <div class="bottom-sheet">
             <div class="sheet-handle"></div>
             <div class="close-modal" onclick="closeModal('payModal')"><i class="fa-solid fa-xmark"></i></div>
+
             <div style="text-align: center; margin-bottom: 20px;">
                 <h2 class="gold-text" id="payName" style="font-size: 1.6em; margin-bottom: 5px;">Name</h2>
                 <p id="payPhone" style="color: #aaa; margin: 0; font-size: 1em;"><i class="fa-solid fa-phone" style="font-size:0.8em; margin-right:5px;"></i> <span id="payPhoneText">Phone</span></p>
             </div>
+
             <div class="info-box no-click" style="display: flex; justify-content: space-around; text-align: center; padding: 15px 10px;">
-                <div><div style="font-size:0.85em; color:#aaa; margin-bottom:3px;">Schemes</div><div style="color: var(--gold-light); font-weight:bold; font-size:1.2em;" id="paySchemes">1</div></div>
+                <div>
+                    <div style="font-size:0.85em; color:#aaa; margin-bottom:3px;">Schemes</div>
+                    <div style="color: var(--gold-light); font-weight:bold; font-size:1.2em;" id="paySchemes">1</div>
+                </div>
                 <div style="width:1px; background:rgba(212, 175, 55, 0.3);"></div>
-                <div><div style="font-size:0.85em; color:#aaa; margin-bottom:3px;">Base/Week</div><div style="color: var(--gold-light); font-weight:bold; font-size:1.2em;" id="payBaseAmt">₹100</div></div>
+                <div>
+                    <div style="font-size:0.85em; color:#aaa; margin-bottom:3px;">Base/Week</div>
+                    <div style="color: var(--gold-light); font-weight:bold; font-size:1.2em;" id="payBaseAmt">₹100</div>
+                </div>
             </div>
+
             <label style="color: #ddd; font-weight: 600; font-size: 0.9em; display: block; text-align: center;">Enter Amount (Multiples of Base Amount)</label>
             <input type="number" id="payInput" class="input-field" style="font-size: 1.5em; padding: 20px;" placeholder="₹0" oninput="calculateWeeks()">
             <div id="payCalcMsg" style="text-align: center; font-weight: bold; margin-top: -5px; margin-bottom: 20px; font-size: 0.95em; min-height: 20px;"></div>
+
             <button class="login-btn" id="submitPayBtn" onclick="submitPayment()" style="margin-top: 0;"><i class="fa-brands fa-whatsapp" style="font-size: 1.2em; margin-right: 8px;"></i> PAY & NOTIFY</button>
         </div>
     </div>
@@ -381,6 +396,7 @@
         <div class="bottom-sheet">
             <div class="sheet-handle"></div>
             <div class="close-modal" onclick="closeModal('ledgerModal')"><i class="fa-solid fa-xmark"></i></div>
+
             <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
                 <div>
                     <h2 class="gold-text" id="legName" style="font-size: 1.4em; margin-bottom: 5px;">Name</h2>
@@ -388,7 +404,8 @@
                 </div>
                 <button class="gold-btn-outline" id="previewBtn" onclick="previewPDF()" style="padding: 8px 15px;"><i class="fa-solid fa-file-pdf"></i> PDF</button>
             </div>
-            
+
+            <!-- DSS Specific Stats -->
             <div id="dssLedgerStats" style="display: none; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px;">
                 <div class="info-box no-click" style="text-align: center; margin-bottom: 0; padding: 15px 10px;">
                     <div style="font-size: 0.85em; color: #ddd; margin-bottom: 5px;">Paid Weeks</div>
@@ -403,7 +420,9 @@
                     <div id="legTotalAmt" style="font-size: 1.8em; font-weight: bold; color: var(--gold-light);">₹0</div>
                 </div>
             </div>
+
             <div id="ledgerLoader" class="loader" style="margin-top: 20px; display: none;"><div class="spinner"></div>Loading Ledger...</div>
+
             <div style="max-height: 250px; overflow-y: auto; border: 1px solid rgba(212,175,55,0.3); border-radius: 12px; background: rgba(0, 43, 102, 0.3);">
                 <table>
                     <thead style="position: sticky; top: 0; background: var(--royal-blue); z-index: 10;">
@@ -423,21 +442,27 @@
             <div class="sheet-handle"></div>
             <div class="close-modal" onclick="closeModal('mlpfinAddModal')"><i class="fa-solid fa-xmark"></i></div>
             <h2 class="gold-text" style="text-align: center; margin-bottom: 20px;"><i class="fa-solid fa-user-plus"></i> New Loan Entry</h2>
+            
             <input type="text" id="mfName" class="input-field" style="text-align:left;" placeholder="Customer Name">
             <input type="tel" id="mfPhone" class="input-field" maxlength="10" style="text-align:left;" placeholder="Mobile Number">
             <input type="text" id="mfArea" class="input-field" style="text-align:left;" placeholder="Area / City">
+            
             <div style="display:flex; gap:10px;">
                 <input type="number" id="mfPrincipal" class="input-field" style="text-align:left; flex:2;" placeholder="Principal Amt (₹)" oninput="calcAddInt()">
                 <input type="number" id="mfInterest" class="input-field" style="text-align:left; flex:1;" placeholder="₹ Vatti/100" oninput="calcAddInt()">
             </div>
+            
             <select id="mfIntType" class="input-field" style="text-align:left;" onchange="calcAddInt()">
                 <option value="Monthly">Monthly</option>
                 <option value="Weekly">Weekly</option>
                 <option value="Daily">Daily</option>
             </select>
+            
             <div id="addIntDisplay" style="text-align:center; color:var(--gold-light); font-weight:bold; font-size:0.9em; margin:5px 0;">Calculated Interest: ₹0</div>
+            
             <label style="color:#aaa; font-size:0.85em; margin-left:5px;">Loan Date:</label>
             <input type="date" id="mfLoanDate" class="input-field" style="text-align:left;">
+            
             <button class="login-btn" id="mfSubmitBtn" onclick="submitMlpfinLoan()" style="margin-top: 15px;"><i class="fa-solid fa-check"></i> SAVE LOAN</button>
         </div>
     </div>
@@ -447,23 +472,29 @@
         <div class="bottom-sheet">
             <div class="sheet-handle"></div>
             <div class="close-modal" onclick="closeModal('mlpfinPayModal')"><i class="fa-solid fa-xmark"></i></div>
+            
             <div style="text-align: center; margin-bottom: 10px;">
                 <h2 class="gold-text" id="mfPayName" style="font-size: 1.5em; margin-bottom: 5px;">Name</h2>
                 <div class="c-badge" id="mfPayLoanId" style="margin-top:8px;">L-ID</div>
             </div>
+
             <div class="info-box no-click" style="padding: 15px; margin-bottom:10px;">
                 <div style="font-size:0.85em; color:#aaa;">Remaining Principal</div>
                 <div style="color: var(--gold-light); font-weight:bold; font-size:1.5em; margin-top:5px;" id="mfPayRemaining">₹0</div>
                 <div style="font-size:0.9em; color:#25D366; margin-top:5px; font-weight:bold;" id="mfPayExpectedInt">Interest: ₹0</div>
             </div>
+
             <select id="mfPayType" class="input-field" onchange="updatePayHint()">
                 <option value="Interest">Paying Interest (வட்டி)</option>
                 <option value="Principal">Paying Principal (அசல்)</option>
             </select>
+            
             <input type="number" id="mfPayAmount" class="input-field" style="font-size: 1.5em; padding: 20px;" placeholder="₹ Amount" oninput="updatePayHint()">
+            
             <div id="mfPayHintBox" style="text-align:center; font-size:0.85em; margin-bottom:15px; color:#aaa;">
                 * Interest payment will NOT reduce the Principal.
             </div>
+
             <button class="login-btn" id="mfConfirmPayBtn" onclick="submitMlpfinPay()" style="margin-top: 5px;"><i class="fa-brands fa-whatsapp"></i> PAY & NOTIFY</button>
         </div>
     </div>
@@ -487,7 +518,7 @@
     <script>
         // URLs
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwCSVVn2Wr3KPCL5WzBU96pIbONuOTTWLPXdGhus2axWXwei_OpFLakMwk5ddXFQc6n/exec";
-        const MLPFIN_URL = "https://script.google.com/macros/s/AKfycbyP4p0Y5pKxhT7ZB6UPkEPTZb7Mkdpt53Fj8OURuVA7gZ2p4DYrtDyPu7rdiXl3vV6B/exec";
+        const MLPFIN_URL = "https://script.google.com/macros/s/AKfycbzElEEIINKxhToiL0bbkdtkHl4UJT0QdeDP-11uCNl55p2wwv_-rgzSFE_rt4BKqiDA/exec";
 
         // Global Variables
         let activeModule = 'dss'; // Context Switcher
@@ -772,9 +803,9 @@
             document.getElementById('submitPayBtn').innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i> LOADING...`; document.getElementById('submitPayBtn').disabled = true;
             fetch(`${SCRIPT_URL}?phone=${encodeURIComponent(phone)}&t=${Date.now()}`).then(res => res.json()).then(data => {
                 selectedPaidWeeks = parseInt(data.paidWeeks) || 0;
-                document.getElementById('submitPayBtn').innerHTML = `<i class="fa-brands fa-whatsapp"></i> PAY & NOTIFY`;
+                document.getElementById('submitPayBtn').innerHTML = `<i class="fa-brands fa-whatsapp" style="font-size: 1.2em; margin-right: 8px;"></i> PAY & NOTIFY`;
                 calculateWeeks(); 
-            }).catch(e => { selectedPaidWeeks = 0; document.getElementById('submitPayBtn').innerHTML = `<i class="fa-brands fa-whatsapp"></i> PAY & NOTIFY`; calculateWeeks(); });
+            }).catch(e => { selectedPaidWeeks = 0; document.getElementById('submitPayBtn').innerHTML = `<i class="fa-brands fa-whatsapp" style="font-size: 1.2em; margin-right: 8px;"></i> PAY & NOTIFY`; calculateWeeks(); });
         }
 
         function calculateWeeks() {

@@ -522,7 +522,6 @@
             <div style="color:var(--gold-light); font-weight:bold; font-size:1.1em; cursor:pointer;" onclick="closeModal('pdfPreviewModal')">
                 <i class="fa-solid fa-arrow-left"></i> BACK
             </div>
-            <!-- UPDATED BUTTON FOR APP SUPPORT -->
             <button class="gold-btn" onclick="downloadPDF()" id="actualDownloadBtn" style="padding: 10px 15px; font-size: 0.85em;">
                 <i class="fa-solid fa-share-nodes"></i> SHARE / SAVE
             </button>
@@ -975,14 +974,14 @@
             .then(data => {
                 if(data.status === "Success") {
                     closeModal('payModal');
+                    switchTab('customers'); // Redirects to customers tab immediately
                     loadInitialData(); 
 
                     let msg = `Dear ${selectedCustomer.name},\n\nWe have received your MLP Diwali Saving Scheme payment.\n\nAmount: ₹${amt}\nCalculated for: ${weeksToRecord} week(s)\n\nThank you!\n~ MLP Management`;
-                    let waUrl = `https://wa.me/91${selectedCustomer.phone}?text=${encodeURIComponent(msg)}`;
-
-                    let link = document.getElementById('waLink');
-                    link.href = waUrl;
-                    link.click();
+                    
+                    // Directly open whatsapp window
+                    window.open(`https://wa.me/91${selectedCustomer.phone}?text=${encodeURIComponent(msg)}`, '_blank');
+                    
                 } else {
                     alert("Error saving data!");
                     btn.innerHTML = `<i class="fa-brands fa-whatsapp" style="font-size: 1.2em; margin-right: 8px;"></i> CONFIRM PAY`; 
@@ -1186,8 +1185,16 @@
             if(filtered.length === 0) {
                 html += '<tr><td colspan="3" style="color:#aaa; padding: 20px;">No collections found for this date.</td></tr>';
             } else {
+                let grouped = {};
                 filtered.forEach(p => {
                     total += parseFloat(p.amount) || 0;
+                    if(!grouped[p.phone]) {
+                        grouped[p.phone] = { name: p.name, phone: p.phone, date: p.date, amount: 0 };
+                    }
+                    grouped[p.phone].amount += parseFloat(p.amount) || 0;
+                });
+
+                Object.values(grouped).forEach(p => {
                     html += `<tr>
                         <td>${p.date}</td>
                         <td style="text-align:left;">

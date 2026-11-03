@@ -34,11 +34,10 @@
             color: var(--text-color);
             width: 100%; min-height: 100vh;
             overflow-x: hidden;
-            -webkit-touch-callout: none; /* Disable default long-press menu */
+            -webkit-touch-callout: none;
             -webkit-user-select: none;
         }
 
-        /* Re-enable selection for inputs */
         input, select, textarea { -webkit-user-select: text; }
 
         body {
@@ -123,7 +122,7 @@
         input:checked + .slider { background-color: #ff6b6b; border-color: #ff6b6b;}
         input:checked + .slider:before { transform: translateX(22px); background-color: #fff;}
 
-        /* PDF PREVIEW MODAL (FULL SCREEN) */
+        /* PDF PREVIEW MODAL */
         #pdfPreviewModal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #e0e0e0; z-index: 4000; display: none; flex-direction: column; }
         .preview-header { background: var(--royal-blue); padding: calc(env(safe-area-inset-top, 0px) + 15px) 20px 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--gold); box-shadow: 0 4px 10px rgba(0,0,0,0.3); z-index: 10; }
         .preview-body { flex: 1; overflow-y: auto; padding: 20px; display: flex; justify-content: center; align-items: flex-start; padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 20px); }
@@ -522,6 +521,7 @@
 
         // Global Variables
         let activeModule = 'dss'; // Context Switcher
+        let myChart = null; // Added Chart variable to fix graph issue
 
         // DSS Data
         let customerData = [];
@@ -717,7 +717,8 @@
                     document.getElementById('dashCollAmount').innerText = `₹${total}`;
                     let today = new Date().toISOString().split('T')[0];
                     document.getElementById('filterDate').value = today;
-                    filterByDate(); renderChart();
+                    filterByDate(); 
+                    if(document.getElementById('tab-dashboard').style.display === 'block') renderChart();
                 }
             });
         }

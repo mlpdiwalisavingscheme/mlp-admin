@@ -10,8 +10,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-    <!-- PDF Generation Library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
     <style>
@@ -34,7 +32,12 @@
             color: var(--text-color);
             width: 100%; min-height: 100vh;
             overflow-x: hidden;
+            -webkit-touch-callout: none; /* Disable default long-press menu */
+            -webkit-user-select: none;
         }
+
+        /* Re-enable selection for inputs */
+        input, select, textarea { -webkit-user-select: text; }
 
         body {
             padding-top: 0;
@@ -44,114 +47,38 @@
 
         h1, h2, h3 { font-family: 'Cinzel', serif; margin: 0; }
 
-        .gold-text {
-            background: var(--gold-gradient);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-        }
+        .gold-text { background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-        .gold-btn {
-            background: var(--gold-gradient);
-            color: var(--royal-blue);
-            border: none;
-            padding: 12px 20px;
-            border-radius: 8px;
-            font-weight: bold;
-            font-size: 0.95em;
-            cursor: pointer;
-            box-shadow: 0 4px 10px rgba(212, 175, 55, 0.3);
-            transition: transform 0.2s;
-            text-transform: uppercase;
-        }
-
+        .gold-btn { background: var(--gold-gradient); color: var(--royal-blue); border: none; padding: 12px 20px; border-radius: 8px; font-weight: bold; font-size: 0.95em; cursor: pointer; box-shadow: 0 4px 10px rgba(212, 175, 55, 0.3); transition: transform 0.2s; text-transform: uppercase; }
         .gold-btn:active { transform: scale(0.95); }
 
-        .gold-btn-outline {
-            background: transparent;
-            color: var(--gold-light);
-            border: 1px solid var(--gold);
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-weight: bold;
-            font-size: 0.9em;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex; align-items: center; justify-content: center; gap: 8px;
-        }
-
+        .gold-btn-outline { background: transparent; color: var(--gold-light); border: 1px solid var(--gold); padding: 10px 20px; border-radius: 8px; font-weight: bold; font-size: 0.9em; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; }
         .gold-btn-outline:active { background: rgba(212, 175, 55, 0.1); }
 
         /* LOGIN SCREEN */
-        #loginScreen {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at center, var(--light-blue), var(--royal-blue));
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            z-index: 9999; padding: 20px;
-        }
-        .login-box {
-            background: rgba(0, 0, 0, 0.4); border: 2px solid var(--gold); border-radius: 16px;
-            padding: 40px 20px; width: 100%; max-width: 350px; text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
+        #loginScreen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at center, var(--light-blue), var(--royal-blue)); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; padding: 20px; }
+        .login-box { background: rgba(0, 0, 0, 0.4); border: 2px solid var(--gold); border-radius: 16px; padding: 40px 20px; width: 100%; max-width: 350px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         .login-box img { height: 100px; margin-bottom: 20px; filter: drop-shadow(0 4px 8px rgba(212, 175, 55, 0.3));}
-        .input-field {
-            width: 100%; padding: 15px; margin: 12px 0; border-radius: 8px;
-            border: 1px solid var(--gold); background: rgba(0, 21, 51, 0.8);
-            color: var(--gold-light); font-size: 1.1em; text-align: center; font-weight: bold;
-        }
+        
+        .input-field { width: 100%; padding: 15px; margin: 12px 0; border-radius: 8px; border: 1px solid var(--gold); background: rgba(0, 21, 51, 0.8); color: var(--gold-light); font-size: 1.1em; text-align: center; font-weight: bold; }
         .input-field::placeholder { color: rgba(212, 175, 55, 0.5); font-weight: normal; }
         .input-field:focus { outline: none; box-shadow: 0 0 15px rgba(212, 175, 55, 0.4); border-color: var(--gold-light); }
-
-        .login-btn {
-            background: var(--gold-gradient); color: var(--royal-blue);
-            border: none; padding: 15px; border-radius: 30px; font-weight: 800; font-size: 1.2em;
-            cursor: pointer; width: 100%; text-transform: uppercase; margin-top: 15px;
-            box-shadow: 0 6px 15px rgba(212, 175, 55, 0.4);
-        }
+        .login-btn { background: var(--gold-gradient); color: var(--royal-blue); border: none; padding: 15px; border-radius: 30px; font-weight: 800; font-size: 1.2em; cursor: pointer; width: 100%; text-transform: uppercase; margin-top: 15px; box-shadow: 0 6px 15px rgba(212, 175, 55, 0.4); }
 
         /* HEADER & MENU */
-        header {
-            position: fixed; 
-            top: 0; 
-            left: 0; width: 100%;
-            background: var(--royal-blue);
-            border-bottom: 1px solid rgba(212, 175, 55, 0.4);
-            display: flex; justify-content: space-between; align-items: center;
-            padding: calc(env(safe-area-inset-top, 0px) + 15px) 20px 15px 20px;
-            z-index: 1000; box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-        }
-
+        header { position: fixed; top: 0; left: 0; width: 100%; background: var(--royal-blue); border-bottom: 1px solid rgba(212, 175, 55, 0.4); display: flex; justify-content: space-between; align-items: center; padding: calc(env(safe-area-inset-top, 0px) + 15px) 20px 15px 20px; z-index: 1000; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
         .header-left { display: flex; align-items: center; gap: 15px; }
         .menu-icon { font-size: 1.5em; color: var(--gold); cursor: pointer; padding: 5px; }
-
         .header-logo { display: flex; align-items: center; gap: 10px; }
         .header-logo img { height: 35px; border-radius: 4px; }
         .header-title { font-size: 1.3em; color: var(--gold-light); letter-spacing: 1px;}
-
-        .menu-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.6); z-index: 1999; display: none;
-            opacity: 0; transition: opacity 0.3s;
-        }
+        .menu-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1999; display: none; opacity: 0; transition: opacity 0.3s; }
         .menu-overlay.show { display: block; opacity: 1; }
-
-        .side-menu {
-            position: fixed; top: 0; left: -280px; width: 260px; height: 100%;
-            background: var(--royal-blue); z-index: 2000; transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            border-right: 1px solid var(--gold); padding-top: calc(env(safe-area-inset-top, 0px) + 30px);
-            box-shadow: 5px 0 15px rgba(0,0,0,0.5);
-        }
+        .side-menu { position: fixed; top: 0; left: -280px; width: 260px; height: 100%; background: var(--royal-blue); z-index: 2000; transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1); border-right: 1px solid var(--gold); padding-top: calc(env(safe-area-inset-top, 0px) + 30px); box-shadow: 5px 0 15px rgba(0,0,0,0.5); }
         .side-menu.open { left: 0; }
-
-        .menu-header {
-            padding: 20px; border-bottom: 1px solid rgba(212, 175, 55, 0.3);
-            text-align: center; margin-bottom: 10px;
-        }
+        .menu-header { padding: 20px; border-bottom: 1px solid rgba(212, 175, 55, 0.3); text-align: center; margin-bottom: 10px; }
         .menu-header img { height: 60px; filter: drop-shadow(0 2px 5px rgba(212, 175, 55, 0.3));}
-
-        .menu-item {
-            display: flex; align-items: center; gap: 15px; padding: 18px 25px; color: var(--text-color); text-decoration: none;
-            font-size: 1.1em; border-bottom: 1px solid rgba(212, 175, 55, 0.1); font-weight: 500;
-        }
+        .menu-item { display: flex; align-items: center; gap: 15px; padding: 18px 25px; color: var(--text-color); text-decoration: none; font-size: 1.1em; border-bottom: 1px solid rgba(212, 175, 55, 0.1); font-weight: 500; }
         .menu-item i { color: var(--gold); width: 20px; text-align: center; font-size: 1.2em;}
         .menu-item:active { background: rgba(212, 175, 55, 0.1); }
 
@@ -159,74 +86,36 @@
         .app-content { padding: calc(env(safe-area-inset-top, 0px) + 85px) 15px 20px 15px; }
 
         /* CUSTOMER CARDS */
-        .card {
-            background: rgba(0, 43, 102, 0.3); border: 1px solid rgba(212, 175, 55, 0.4);
-            border-radius: 12px; padding: 18px; margin-bottom: 15px;
-            display: flex; flex-direction: column; gap: 15px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-        }
-        .card-top { display: flex; justify-content: space-between; align-items: flex-start; }
+        .card { background: rgba(0, 43, 102, 0.3); border: 1px solid rgba(212, 175, 55, 0.4); border-radius: 12px; padding: 18px; margin-bottom: 15px; display: flex; flex-direction: column; gap: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        .card-top { display: flex; justify-content: space-between; align-items: flex-start; cursor: pointer;}
         .c-name { font-size: 1.2em; font-weight: 700; color: var(--gold-light); margin-bottom: 5px; font-family: 'Cinzel', serif;}
         .c-phone { font-size: 0.95em; color: #ddd; display: flex; align-items: center; gap: 5px;}
         .c-scheme { display: inline-block; background: rgba(212, 175, 55, 0.15); color: var(--gold-light); border: 1px solid var(--gold); padding: 4px 8px; border-radius: 6px; font-size: 0.8em; font-weight: bold; }
-
         .card-actions { display: flex; gap: 10px; width: 100%;}
         .card-actions button { flex: 1; padding: 12px 0; font-size: 0.95em; display: flex; justify-content: center; align-items: center; gap: 8px;}
 
         /* BOTTOM NAVIGATION */
-        .bottom-nav {
-            position: fixed; bottom: 0; left: 0; width: 100%; height: 75px;
-            background: var(--royal-blue);
-            border-top: 1px solid rgba(212, 175, 55, 0.3);
-            display: flex; justify-content: space-evenly; align-items: center;
-            z-index: 1000; padding-bottom: env(safe-area-inset-bottom, 0px);
-            box-shadow: 0 -4px 15px rgba(0,0,0,0.4);
-        }
-        .nav-item {
-            color: rgba(240, 230, 210, 0.5); text-align: center; font-size: 0.8em; font-weight: 600;
-            display: flex; flex-direction: column; align-items: center; justify-content: center; 
-            gap: 6px; cursor: pointer; flex: 1; padding: 10px 0; transition: color 0.2s;
-        }
+        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; height: 75px; background: var(--royal-blue); border-top: 1px solid rgba(212, 175, 55, 0.3); display: flex; justify-content: space-evenly; align-items: center; z-index: 1000; padding-bottom: env(safe-area-inset-bottom, 0px); box-shadow: 0 -4px 15px rgba(0,0,0,0.4); }
+        .nav-item { color: rgba(240, 230, 210, 0.5); text-align: center; font-size: 0.8em; font-weight: 600; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; cursor: pointer; flex: 1; padding: 10px 0; transition: color 0.2s; }
         .nav-item.active { color: var(--gold-light); }
         .nav-icon { font-size: 1.5em; display: block; margin: 0 auto; }
 
         /* MODALS */
-        .modal-overlay-content {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85); z-index: 3000; display: none; align-items: flex-end;
-            justify-content: center; backdrop-filter: blur(3px);
-        }
-        .bottom-sheet {
-            background: var(--royal-blue); width: 100%; border-radius: 24px 24px 0 0;
-            padding: 30px 20px calc(25px + env(safe-area-inset-bottom, 0px)) 20px;
-            border-top: 2px solid var(--gold); position: relative; max-height: 90vh; overflow-y: auto;
-            box-shadow: 0 -10px 25px rgba(0,0,0,0.5);
-        }
-
-        .sheet-handle {
-            width: 40px; height: 5px; background: rgba(212, 175, 55, 0.4); border-radius: 3px;
-            margin: -15px auto 20px auto;
-        }
-
+        .modal-overlay-content { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 3000; display: none; align-items: flex-end; justify-content: center; backdrop-filter: blur(3px); }
+        .bottom-sheet { background: var(--royal-blue); width: 100%; border-radius: 24px 24px 0 0; padding: 30px 20px calc(25px + env(safe-area-inset-bottom, 0px)) 20px; border-top: 2px solid var(--gold); position: relative; max-height: 90vh; overflow-y: auto; box-shadow: 0 -10px 25px rgba(0,0,0,0.5); }
+        .sheet-handle { width: 40px; height: 5px; background: rgba(212, 175, 55, 0.4); border-radius: 3px; margin: -15px auto 20px auto; }
         .close-modal { position: absolute; top: 20px; right: 20px; font-size: 1.5em; color: rgba(212, 175, 55, 0.6); cursor: pointer; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: rgba(255,255,255,0.05);}
         .close-modal:active { background: rgba(212, 175, 55, 0.2); }
-
         .info-box { background: rgba(0, 43, 102, 0.4); border: 1px solid rgba(212, 175, 55, 0.3); padding: 15px; border-radius: 12px; margin-bottom: 20px; cursor: pointer; transition: 0.2s;}
         .info-box:active { background: rgba(212, 175, 55, 0.1); }
         .info-box.no-click { cursor: default; }
         .info-box.no-click:active { background: rgba(0, 43, 102, 0.4); }
-
         table { width: 100%; border-collapse: collapse; font-size: 0.95em; margin-top: 10px; }
         th { background: rgba(212, 175, 55, 0.15); color: var(--gold-light); padding: 12px 10px; border-bottom: 2px solid var(--gold); text-align: center; font-weight: 600;}
         td { padding: 12px 10px; border-bottom: 1px solid rgba(212, 175, 55, 0.15); text-align: center; color: #ddd;}
-
-        /* DASHBOARD VIEWS */
         .dash-detail-view { display: none; background: rgba(0, 43, 102, 0.3); border-radius: 12px; overflow-y: auto; max-height: 250px; border: 1px solid rgba(212, 175, 55, 0.2); margin-bottom: 20px;}
-
-        /* CHART CONTAINER */
         .chart-container { background: rgba(0, 43, 102, 0.3); border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 12px; padding: 15px; margin-top: 20px; }
-
-        /* TOGGLE SWITCH */
+        
         .switch { position: relative; display: inline-block; width: 50px; height: 26px; }
         .switch input { opacity: 0; width: 0; height: 0; }
         .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(255,255,255,0.1); transition: .4s; border-radius: 34px; border: 1px solid var(--gold);}
@@ -235,27 +124,10 @@
         input:checked + .slider:before { transform: translateX(22px); background-color: #fff;}
 
         /* PDF PREVIEW MODAL (FULL SCREEN) */
-        #pdfPreviewModal {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #e0e0e0; z-index: 4000; display: none; flex-direction: column;
-        }
-        .preview-header {
-            background: var(--royal-blue); 
-            padding: calc(env(safe-area-inset-top, 0px) + 15px) 20px 15px 20px; 
-            display: flex; justify-content: space-between; align-items: center; 
-            border-bottom: 2px solid var(--gold);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3); z-index: 10;
-        }
-        .preview-body {
-            flex: 1; overflow-y: auto; padding: 20px; display: flex; justify-content: center; align-items: flex-start;
-            padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 20px);
-        }
-        .paper {
-            background: #fff; color: #000; width: 100%; max-width: 800px; 
-            padding: 0;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-
+        #pdfPreviewModal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #e0e0e0; z-index: 4000; display: none; flex-direction: column; }
+        .preview-header { background: var(--royal-blue); padding: calc(env(safe-area-inset-top, 0px) + 15px) 20px 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--gold); box-shadow: 0 4px 10px rgba(0,0,0,0.3); z-index: 10; }
+        .preview-body { flex: 1; overflow-y: auto; padding: 20px; display: flex; justify-content: center; align-items: flex-start; padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 20px); }
+        .paper { background: #fff; color: #000; width: 100%; max-width: 800px; padding: 0; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
         .loader { text-align: center; color: var(--gold-light); font-weight: bold; margin-top: 50px; font-size: 1.2em; display: flex; flex-direction: column; align-items: center; gap: 15px;}
         .spinner { border: 4px solid rgba(212, 175, 55, 0.2); width: 40px; height: 40px; border-radius: 50%; border-left-color: var(--gold); animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
@@ -289,19 +161,17 @@
 
         <div class="menu-overlay" id="menuOverlay" onclick="toggleMenu()"></div>
 
-        <!-- ORIGINAL SIDE MENU -->
+        <!-- SIDE MENU -->
         <div class="side-menu" id="sideMenu">
             <div class="menu-header">
                 <img src="1000087690.png" alt="MLP Logo">
                 <h3 class="gold-text" style="margin-top: 10px; font-size: 1.1em;">ADMINISTRATOR</h3>
             </div>
 
-            <!-- DSS MODULE LINK -->
             <a href="#" class="menu-item" onclick="toggleMenu(); setModule('dss'); switchTab('customers')">
                 <i class="fa-solid fa-gift"></i> MLP DSS
             </a>
 
-            <!-- MLPFIN MODULE LINK -->
             <a href="#" class="menu-item" onclick="toggleMenu(); setModule('mlpfin'); switchTab('customers')">
                 <i class="fa-solid fa-hand-holding-dollar"></i> MLPFIN
             </a>
@@ -315,41 +185,38 @@
 
             <!-- TAB 1: CUSTOMERS -->
             <div id="tab-customers">
-                <!-- DSS CUSTOMERS -->
-                <div id="dssCustView">
+                <!-- DSS Customer View -->
+                <div id="dss-content">
                     <div style="display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-top: 5px;">
                         <div style="position: relative; flex: 1;">
                             <i class="fa-solid fa-search" style="position: absolute; left: 15px; top: 17px; color: var(--gold); font-size: 1.1em;"></i>
-                            <input type="text" id="searchInput" class="input-field" style="margin: 0; padding: 12px 12px 12px 42px; font-size: 0.95em; text-align: left; letter-spacing: normal; border-radius: 30px;" placeholder="Search Name or Phone..." onkeyup="filterCustomers()">
+                            <input type="text" id="searchInput" class="input-field" style="margin: 0; padding: 12px 12px 12px 42px; font-size: 0.95em; text-align: left; letter-spacing: normal; border-radius: 30px;" placeholder="Search DSS..." onkeyup="filterCustomers()">
                         </div>
                         <button class="gold-btn" onclick="openAddCustomerModal()" style="padding: 12px 15px; white-space: nowrap; border-radius: 30px; font-size: 0.85em;"><i class="fa-solid fa-user-plus"></i> Add Customer</button>
                     </div>
-
-                    <div id="loadingCustomers" class="loader"><div class="spinner"></div>Loading Data...</div>
-                    <div id="customerList" style="margin-top: 15px;"></div>
                 </div>
 
-                <!-- MLPFIN CUSTOMERS (LOANS) -->
-                <div id="mlpfinCustView" style="display: none;">
+                <!-- MLPFIN Customer View -->
+                <div id="mlpfin-content" style="display: none;">
                     <div style="display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-top: 5px;">
                         <div style="position: relative; flex: 1;">
                             <i class="fa-solid fa-search" style="position: absolute; left: 15px; top: 17px; color: var(--gold); font-size: 1.1em;"></i>
-                            <input type="text" id="mlpfinSearchInput" class="input-field" style="margin: 0; padding: 12px 12px 12px 42px; font-size: 0.95em; text-align: left; letter-spacing: normal; border-radius: 30px;" placeholder="Search Name / Phone..." onkeyup="filterMlpfin()">
+                            <input type="text" id="mlpfinSearchInput" class="input-field" style="margin: 0; padding: 12px 12px 12px 42px; font-size: 0.95em; text-align: left; letter-spacing: normal; border-radius: 30px;" placeholder="Search Loans..." onkeyup="filterMlpfin()">
                         </div>
                         <button class="gold-btn" onclick="openMlpfinAddModal()" style="padding: 12px 15px; white-space: nowrap; border-radius: 30px; font-size: 0.85em;"><i class="fa-solid fa-plus"></i> Add Loan</button>
                     </div>
-
-                    <div id="mlpfinLoader" class="loader"><div class="spinner"></div>Loading Loans...</div>
-                    <div id="mlpfinList" style="margin-top: 15px;"></div>
                 </div>
+
+                <div id="loadingCustomers" class="loader"><div class="spinner"></div>Loading Data...</div>
+                <div id="customerList" style="margin-top: 15px;"></div>
             </div>
 
             <!-- TAB 2: DASHBOARD -->
             <div id="tab-dashboard" style="display: none;">
                 <h2 class="gold-text" style="margin-bottom: 20px; text-align: center;"><i class="fa-solid fa-chart-pie"></i> Overview</h2>
                 
-                <!-- DSS DASHBOARD -->
-                <div id="dssDashView">
+                <!-- DSS Dashboard -->
+                <div id="dss-dashboard">
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                         <div class="info-box" style="text-align: center; display: flex; flex-direction: column; justify-content: center; padding: 25px 15px;" onclick="toggleDashboardView('customers')">
                             <i class="fa-solid fa-users" style="font-size: 2em; color: var(--gold); margin-bottom: 10px;"></i>
@@ -362,23 +229,20 @@
                             <div id="dashCollAmount" style="font-size: 1.8em; font-weight: bold; margin-top: 5px; color: var(--gold-light);">₹0</div>
                         </div>
                     </div>
-
                     <div id="dashCustomerView" class="dash-detail-view">
                         <table><thead style="position: sticky; top:0; background: var(--royal-blue);"><tr><th style="text-align:left;">Customer Name</th><th>Total Paid</th></tr></thead><tbody id="dashCustomerBody"></tbody></table>
                     </div>
-
                     <div id="dashDateView" class="dash-detail-view">
                         <table><thead style="position: sticky; top:0; background: var(--royal-blue);"><tr><th>Date</th><th>Total Collection</th></tr></thead><tbody id="dashDateBody"></tbody></table>
                     </div>
-
                     <div class="chart-container">
                         <h3 class="gold-text" style="text-align: center; font-size: 1.1em; margin-bottom: 15px;"><i class="fa-solid fa-chart-bar"></i> Daily Trend</h3>
                         <canvas id="dailyChart"></canvas>
                     </div>
                 </div>
 
-                <!-- MLPFIN DASHBOARD -->
-                <div id="mlpfinDashView" style="display: none;">
+                <!-- MLPFIN Dashboard -->
+                <div id="mlpfin-dashboard" style="display: none;">
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                         <div class="info-box" style="text-align: center; display: flex; flex-direction: column; justify-content: center; padding: 25px 15px;" onclick="toggleMlpfinDashView('out')">
                             <i class="fa-solid fa-hand-holding-dollar" style="font-size: 2em; color: var(--gold); margin-bottom: 10px;"></i>
@@ -387,15 +251,13 @@
                         </div>
                         <div class="info-box" style="text-align: center; display: flex; flex-direction: column; justify-content: center; padding: 25px 15px;" onclick="toggleMlpfinDashView('interest')">
                             <i class="fa-solid fa-coins" style="font-size: 2em; color: #25D366; margin-bottom: 10px;"></i>
-                            <div style="font-size: 0.95em; color: #ddd;">Total Interest</div>
+                            <div style="font-size: 0.95em; color: #ddd;">Interest Earned</div>
                             <div id="dashTotalInterest" style="font-size: 1.5em; font-weight: bold; margin-top: 5px; color: #25D366;">₹0</div>
                         </div>
                     </div>
-
                     <div id="dashMlpfinOutView" class="dash-detail-view">
                         <table><thead style="position: sticky; top:0; background: var(--royal-blue);"><tr><th style="text-align:left;">Customer</th><th>Balance</th></tr></thead><tbody id="dashMlpfinOutBody"></tbody></table>
                     </div>
-
                     <div id="dashMlpfinInterestView" class="dash-detail-view">
                         <table><thead style="position: sticky; top:0; background: var(--royal-blue);"><tr><th style="text-align:left;">Customer</th><th>Int. Paid</th></tr></thead><tbody id="dashMlpfinInterestBody"></tbody></table>
                     </div>
@@ -404,25 +266,23 @@
 
             <!-- TAB 3: WEEK COLLECTION -->
             <div id="tab-collection" style="display: none;">
-                <!-- DSS COLLECTION -->
-                <div id="dssColView">
+                <!-- DSS Collection -->
+                <div id="dss-collection">
                     <h2 class="gold-text" style="margin-bottom: 15px; text-align: center;"><i class="fa-solid fa-calendar-check"></i> Week Collection</h2>
                     <div style="background: rgba(0, 43, 102, 0.4); border: 1px solid rgba(212, 175, 55, 0.3); padding: 15px; border-radius: 12px; margin-bottom: 20px;">
                         <label style="color: #ddd; font-weight: 600; font-size: 0.9em; display: block; margin-bottom: 8px;">Select Date to Filter:</label>
                         <input type="date" id="filterDate" class="input-field" style="margin: 0; padding: 12px; font-size: 1em; letter-spacing: normal;" onchange="filterByDate()">
                     </div>
-
                     <div class="info-box no-click" style="text-align: center; margin-top: 10px; background: rgba(212, 175, 55, 0.05);">
                         <div style="font-size: 0.9em; color: #ddd; text-transform: uppercase; letter-spacing: 1px;">Collection Amount</div>
                         <div id="dateTotalAmt" style="font-size: 2em; font-weight: bold; color: var(--gold-light); margin-top: 5px;">₹0</div>
                     </div>
-
                     <div id="dateFilterList" style="margin-top: 15px; background: rgba(0, 43, 102, 0.3); border-radius: 12px; overflow: hidden; border: 1px solid rgba(212, 175, 55, 0.2);">
                     </div>
                 </div>
 
-                <!-- MLPFIN COLLECTION (DUES) -->
-                <div id="mlpfinColView" style="display: none;">
+                <!-- MLPFIN Collection -->
+                <div id="mlpfin-collection" style="display: none;">
                     <h2 class="gold-text" style="margin-bottom: 15px; text-align: center;"><i class="fa-solid fa-bell"></i> Loan Dues</h2>
                     <div style="background: rgba(212, 175, 55, 0.1); padding: 15px; border-radius: 12px; border: 1px dashed var(--gold); margin-bottom: 20px; text-align:center;">
                         <h3 class="gold-text" style="font-size:1.1em; margin-bottom:5px;">DUE TODAY</h3>
@@ -432,10 +292,9 @@
                 </div>
             </div>
 
-            <!-- TAB 4: ADMIN CONTROL (Shared) -->
+            <!-- TAB 4: ADMIN CONTROL -->
             <div id="tab-admin" style="display: none;">
                 <h2 class="gold-text" style="margin-bottom: 20px; text-align: center;"><i class="fa-solid fa-gear"></i> Admin Control</h2>
-
                 <div class="info-box no-click">
                     <div style="display: flex; justify-content: space-between; align-items: center;">
                         <div>
@@ -448,7 +307,6 @@
                         </label>
                     </div>
                 </div>
-
                 <button class="gold-btn-outline" style="width: 100%; margin-top: 30px; color: #ff6b6b; border-color: rgba(255,107,107,0.4);" onclick="logout()">
                     <i class="fa-solid fa-right-from-bracket"></i> SECURE LOGOUT
                 </button>
@@ -456,7 +314,7 @@
 
         </div>
 
-        <!-- ORIGINAL BOTTOM NAV -->
+        <!-- BOTTOM NAV -->
         <div class="bottom-nav">
             <div class="nav-item active" id="nav-customers" onclick="switchTab('customers')">
                 <i class="fa-solid fa-users nav-icon"></i>
@@ -478,8 +336,9 @@
 
     </div>
 
-    <!-- ================== DSS MODALS ================== -->
-    <!-- ADD CUSTOMER MODAL -->
+    <!-- ================== MODALS ================== -->
+
+    <!-- DSS: ADD CUSTOMER MODAL -->
     <div class="modal-overlay-content" id="addCustomerModal">
         <div class="bottom-sheet">
             <div class="sheet-handle"></div>
@@ -500,7 +359,7 @@
         </div>
     </div>
 
-    <!-- PAY MODAL -->
+    <!-- DSS: PAY MODAL -->
     <div class="modal-overlay-content" id="payModal">
         <div class="bottom-sheet">
             <div class="sheet-handle"></div>
@@ -547,7 +406,7 @@
             </div>
 
             <!-- DSS Specific Stats -->
-            <div id="dssLedgerStats" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px;">
+            <div id="dssLedgerStats" style="display: none; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px;">
                 <div class="info-box no-click" style="text-align: center; margin-bottom: 0; padding: 15px 10px;">
                     <div style="font-size: 0.85em; color: #ddd; margin-bottom: 5px;">Paid Weeks</div>
                     <div id="legPaidWeeks" style="font-size: 1.6em; font-weight: bold; color: var(--gold-light);">0</div>
@@ -590,7 +449,7 @@
             
             <div style="display:flex; gap:10px;">
                 <input type="number" id="mfPrincipal" class="input-field" style="text-align:left; flex:2;" placeholder="Principal Amt (₹)" oninput="calcAddInt()">
-                <input type="number" id="mfInterest" class="input-field" style="text-align:left; flex:1;" placeholder="Int %" oninput="calcAddInt()">
+                <input type="number" id="mfInterest" class="input-field" style="text-align:left; flex:1;" placeholder="₹ Vatti/100" oninput="calcAddInt()">
             </div>
             
             <select id="mfIntType" class="input-field" style="text-align:left;" onchange="calcAddInt()">
@@ -659,11 +518,12 @@
     <script>
         // URLs
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwCSVVn2Wr3KPCL5WzBU96pIbONuOTTWLPXdGhus2axWXwei_OpFLakMwk5ddXFQc6n/exec";
-        const MLPFIN_URL = "https://script.google.com/macros/s/AKfycbzqTTVrh-wabucmzfNVMiYOKpjTeoaMTvyMziqVG454EVdx4JmB_DtxRauCLEHapSC_/exec";
+        const MLPFIN_URL = "https://script.google.com/macros/s/AKfycbyP4p0Y5pKxhT7ZB6UPkEPTZb7Mkdpt53Fj8OURuVA7gZ2p4DYrtDyPu7rdiXl3vV6B/exec";
 
         // Global Variables
-        let activeModule = 'dss'; // Context Switcher (dss / mlpfin)
+        let activeModule = 'dss'; // Context Switcher
 
+        // DSS Data
         let customerData = [];
         let allPayments = [];
         let selectedCustomer = null;
@@ -672,12 +532,16 @@
         let custTotalAmtObj = {}; 
         let dailyTotalObj = {}; 
 
+        // MLPFIN Data
         let mlpfinData = [];
         let mlpfinAllPayments = [];
         let selectedMlpfinLoan = null;
 
         let currentLedgerData = null; 
         let isMaintenanceOn = false; 
+
+        // Long Press Delete Variables
+        let pressTimer;
 
         // --- DATE FORMATTER ---
         function formatCustomDate(isoString) {
@@ -696,7 +560,7 @@
             if(localStorage.getItem('mlp_admin_logged_in') === 'true') {
                 document.getElementById('loginScreen').style.display = 'none';
                 document.getElementById('appScreen').style.display = 'block';
-                loadInitialData(); // Load DSS by default
+                setModule('dss'); // Default Load
                 checkMaintenanceStatus();
             }
         };
@@ -706,24 +570,16 @@
             if(phone === '6382838017' || phone === '9965236069') {
                 localStorage.setItem('mlp_admin_logged_in', 'true');
                 location.reload();
-            } else {
-                alert('Invalid Admin Mobile Number!');
-            }
+            } else { alert('Invalid Admin Mobile Number!'); }
         }
 
-        function logout() {
-            localStorage.removeItem('mlp_admin_logged_in');
-            location.reload();
-        }
+        function logout() { localStorage.removeItem('mlp_admin_logged_in'); location.reload(); }
 
         function toggleMenu() {
             let menu = document.getElementById('sideMenu');
             let overlay = document.getElementById('menuOverlay');
-            if(menu.classList.contains('open')) {
-                menu.classList.remove('open'); overlay.classList.remove('show');
-            } else {
-                menu.classList.add('open'); overlay.classList.add('show');
-            }
+            if(menu.classList.contains('open')) { menu.classList.remove('open'); overlay.classList.remove('show'); } 
+            else { menu.classList.add('open'); overlay.classList.add('show'); }
         }
 
         // --- MODULE SWITCHER ---
@@ -734,18 +590,23 @@
             document.getElementById('mainHeaderTitle').innerText = (mod === 'dss') ? 'MLP ADMIN' : 'MLPFIN ADMIN';
 
             // Show/Hide Customer Views
-            document.getElementById('dssCustView').style.display = (mod === 'dss') ? 'block' : 'none';
-            document.getElementById('mlpfinCustView').style.display = (mod === 'mlpfin') ? 'block' : 'none';
-            
-            // Show/Hide Dash Views
-            document.getElementById('dssDashView').style.display = (mod === 'dss') ? 'block' : 'none';
-            document.getElementById('mlpfinDashView').style.display = (mod === 'mlpfin') ? 'block' : 'none';
-            
-            // Show/Hide Col Views
-            document.getElementById('dssColView').style.display = (mod === 'dss') ? 'block' : 'none';
-            document.getElementById('mlpfinColView').style.display = (mod === 'mlpfin') ? 'block' : 'none';
+            document.getElementById('dss-content').style.display = (mod === 'dss') ? 'block' : 'none';
+            document.getElementById('mlpfin-content').style.display = (mod === 'mlpfin') ? 'block' : 'none';
 
-            if(mod === 'mlpfin' && mlpfinData.length === 0) loadMlpfinData();
+            // Show/Hide Dash Views
+            document.getElementById('dss-dashboard').style.display = (mod === 'dss') ? 'block' : 'none';
+            document.getElementById('mlpfin-dashboard').style.display = (mod === 'mlpfin') ? 'block' : 'none';
+
+            // Show/Hide Col Views
+            document.getElementById('dss-collection').style.display = (mod === 'dss') ? 'block' : 'none';
+            document.getElementById('mlpfin-collection').style.display = (mod === 'mlpfin') ? 'block' : 'none';
+
+            // Load data if not loaded
+            if(mod === 'dss') {
+                switchTab('customers'); loadInitialData(); 
+            } else {
+                switchTab('customers'); loadMlpfinData();
+            }
         }
 
         // --- TAB SWITCHER ---
@@ -774,7 +635,6 @@
             }
         }
 
-        // --- ADMIN / MAINTENANCE ---
         function checkMaintenanceStatus() {
             fetch(`${SCRIPT_URL}?action=getMaintenanceStatus&t=${Date.now()}`)
                 .then(res => res.json()).then(data => {
@@ -787,8 +647,43 @@
         }
         function toggleMaintenance() {
             let toggle = document.getElementById('maintToggle'); isMaintenanceOn = toggle.checked;
-            fetch(`${SCRIPT_URL}?action=toggleMaintenance&status=${isMaintenanceOn}&t=${Date.now()}`)
-                .catch(e => { alert("Failed to sync status."); toggle.checked = !isMaintenanceOn; });
+            fetch(`${SCRIPT_URL}?action=toggleMaintenance&status=${isMaintenanceOn}&t=${Date.now()}`).catch(e => { alert("Failed"); toggle.checked = !isMaintenanceOn; });
+        }
+
+
+        // ==========================================
+        // LONG PRESS DELETE LOGIC
+        // ==========================================
+        function startPress(type, id, name, phone) {
+            pressTimer = window.setTimeout(function() {
+                confirmDelete(type, id, name, phone);
+            }, 800); // 800ms hold to trigger delete
+        }
+
+        function cancelPress() {
+            if (pressTimer) clearTimeout(pressTimer);
+        }
+
+        function confirmDelete(type, id, name, phone) {
+            if(confirm("Delete " + name + " (" + phone + ")?\nThis action cannot be undone.")) {
+                let payload = { 
+                    action: type === 'dss' ? 'deleteDssCustomer' : 'deleteMlpfinLoan', 
+                    id: id, 
+                    phone: phone 
+                };
+                
+                fetch(type === 'dss' ? SCRIPT_URL : MLPFIN_URL, {
+                    method: 'POST',
+                    body: JSON.stringify(payload)
+                }).then(res => res.json()).then(data => {
+                    if(data.status === "Success") {
+                        alert(name + " Deleted Successfully.");
+                        if(type === 'dss') loadInitialData(); else loadMlpfinData();
+                    } else {
+                        alert("Error deleting record.");
+                    }
+                }).catch(e => alert("Network Error."));
+            }
         }
 
 
@@ -820,7 +715,8 @@
                         if(p.date) { if(!dailyTotalObj[p.date]) dailyTotalObj[p.date] = 0; dailyTotalObj[p.date] += amt; }
                     });
                     document.getElementById('dashCollAmount').innerText = `₹${total}`;
-                    document.getElementById('filterDate').value = new Date().toISOString().split('T')[0];
+                    let today = new Date().toISOString().split('T')[0];
+                    document.getElementById('filterDate').value = today;
                     filterByDate(); renderChart();
                 }
             });
@@ -828,13 +724,13 @@
 
         function renderCustomers(list) {
             let container = document.getElementById('customerList'); container.innerHTML = '';
-            if(list.length === 0) { container.innerHTML = '<p style="text-align:center; color:#aaa;">No customers found.</p>'; return; }
+            if(list.length === 0) { container.innerHTML = '<p style="text-align:center; color:#aaa; margin-top:20px;">No customers found.</p>'; return; }
             list.forEach(c => {
                 if(!c.name && !c.phone) return;
                 let sCount = parseInt(c.schemes) || 1;
                 container.innerHTML += `
                     <div class="card">
-                        <div class="card-top">
+                        <div class="card-top" ontouchstart="startPress('dss', '${c.phone}', '${c.name}', '${c.phone}')" ontouchend="cancelPress()" ontouchmove="cancelPress()" onmousedown="startPress('dss', '${c.phone}', '${c.name}', '${c.phone}')" onmouseup="cancelPress()" onmouseleave="cancelPress()">
                             <div><div class="c-name">${c.name}</div><div class="c-phone"><i class="fa-solid fa-phone" style="font-size:0.8em; color:var(--gold);"></i> ${c.phone}</div></div>
                             <div class="c-scheme">${sCount} Scheme(s)</div>
                         </div>
@@ -845,6 +741,7 @@
                     </div>`;
             });
         }
+
         function filterCustomers() {
             let q = document.getElementById('searchInput').value.toLowerCase();
             renderCustomers(customerData.filter(c => c.name.toLowerCase().includes(q) || c.phone.includes(q)));
@@ -857,7 +754,7 @@
         function submitNewCustomer() {
             let name = document.getElementById('newCustName').value.trim(); let phone = document.getElementById('newCustPhone').value.trim();
             let schemes = parseInt(document.getElementById('newCustSchemes').value) || 1;
-            if(!name || phone.length !== 10) { alert("Enter valid details!"); return; }
+            if(!name || phone.length !== 10) { alert("Please enter valid details!"); return; }
             let btn = document.getElementById('submitAddCustBtn'); btn.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i> SAVING...`; btn.disabled = true;
             fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "addCustomer", name: name, phone: phone, schemes: schemes }) })
             .then(res => res.json()).then(data => {
@@ -915,14 +812,14 @@
             let amt = parseFloat(document.getElementById('payInput').value) || 0; let msgBox = document.getElementById('payCalcMsg'); let btn = document.getElementById('submitPayBtn');
             if(btn.innerHTML.includes('LOADING')) return; 
             if(amt === 0 || isNaN(amt)) { msgBox.innerText = ''; btn.disabled = true; return; }
-            if(amt % selectedBaseAmount !== 0) { msgBox.style.color = '#ff6b6b'; msgBox.innerHTML = `Amount must be multiples of ₹${selectedBaseAmount}`; btn.disabled = true; } 
-            else { let weeks = amt / selectedBaseAmount; msgBox.style.color = 'var(--gold-light)'; msgBox.innerHTML = `Valid! Equals ${weeks} week(s).`; btn.disabled = false; }
+            if(amt % selectedBaseAmount !== 0) { msgBox.style.color = '#ff6b6b'; msgBox.innerHTML = `<i class="fa-solid fa-circle-exclamation"></i> Amount must be multiples of ₹${selectedBaseAmount}`; btn.disabled = true; } 
+            else { let weeks = amt / selectedBaseAmount; msgBox.style.color = 'var(--gold-light)'; msgBox.innerHTML = `<i class="fa-solid fa-circle-check"></i> Valid! Equals ${weeks} week(s).`; btn.disabled = false; }
         }
 
         function submitPayment() {
             let amt = parseFloat(document.getElementById('payInput').value) || 0; let weeksToRecord = amt / selectedBaseAmount; let startWeek = selectedPaidWeeks + 1; 
             let btn = document.getElementById('submitPayBtn'); btn.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i> SAVING...`; btn.disabled = true;
-            
+
             let now = new Date(); let day = String(now.getDate()).padStart(2, '0'); let month = String(now.getMonth() + 1).padStart(2, '0'); let year = now.getFullYear(); let dateStr = `${day}-${month}-${year}`; 
             let payloadRecords = []; 
             for(let i=0; i<weeksToRecord; i++) { payloadRecords.push({ week: startWeek + i, date: dateStr, phone: selectedCustomer.phone, name: selectedCustomer.name, amount: selectedBaseAmount, schemes: selectedCustomer.schemes }); }
@@ -947,7 +844,7 @@
             let total = 0; let html = '<table><thead><tr><th>Date</th><th style="text-align:left;">Name</th><th>Amount</th></tr></thead><tbody>';
 
             if(filtered.length === 0) {
-                html += '<tr><td colspan="3" style="color:#aaa; padding: 20px;">No collections found.</td></tr>';
+                html += '<tr><td colspan="3" style="color:#aaa; padding: 20px;">No collections found for this date.</td></tr>';
             } else {
                 let grouped = {};
                 filtered.forEach(p => {
@@ -975,7 +872,7 @@
             fetch(`${SCRIPT_URL}?phone=${encodeURIComponent(phone)}&t=${Date.now()}`).then(res => res.json()).then(data => {
                 document.getElementById('ledgerLoader').style.display = 'none';
                 if(data.status === "Success") {
-                    currentLedgerData = { module: 'dss', name: name, phone: phone, schemes: data.schemes || 1, records: data.records, paidWeeks: data.paidWeeks };
+                    currentLedgerData = { module: 'dss', name: name, phone: phone, records: data.records, paidWeeks: data.paidWeeks, schemes: data.schemes || 1 };
                     document.getElementById('legPaidWeeks').innerText = data.paidWeeks;
                     let pending = 52 - data.paidWeeks; document.getElementById('legPendingWeeks').innerText = pending < 0 ? 0 : pending;
                     document.getElementById('legTotalAmt').innerText = `₹${data.totalPaid}`;
@@ -984,7 +881,7 @@
                     else { data.records.forEach(r => { html += `<tr><td>Week ${r.week}</td><td>${formatCustomDate(r.date)}</td><td style="color:var(--gold-light); font-weight:bold;">₹${r.amount}</td></tr>`; }); }
                     document.getElementById('ledgerTableBody').innerHTML = html;
                 }
-            });
+            }).catch(e => { document.getElementById('ledgerLoader').style.display = 'none'; document.getElementById('ledgerTableBody').innerHTML = `<tr><td colspan="3" style="color:#ff6b6b;">Error!</td></tr>`; });
         }
 
 
@@ -1009,10 +906,11 @@
             if(list.length === 0) { container.innerHTML = '<p style="text-align:center;color:#aaa;">No records found.</p>'; return; }
             list.forEach(item => {
                 let remPrin = item.remainingPrincipal !== undefined && item.remainingPrincipal !== "" ? parseFloat(item.remainingPrincipal) : parseFloat(item.principalAmount);
-                if(isNaN(remPrin)) remPrin = 0; let intAmt = (remPrin * parseFloat(item.interestRate || 0)) / 100;
+                if(isNaN(remPrin)) remPrin = 0; 
+                let intAmt = (remPrin * parseFloat(item.interestRate || 0)) / 100;
                 container.innerHTML += `
                     <div class="card">
-                        <div class="card-top">
+                        <div class="card-top" ontouchstart="startPress('mlpfin', '${item.loanId}', '${item.name}', '${item.phone}')" ontouchend="cancelPress()" ontouchmove="cancelPress()" onmousedown="startPress('mlpfin', '${item.loanId}', '${item.name}', '${item.phone}')" onmouseup="cancelPress()" onmouseleave="cancelPress()">
                             <div><div class="c-name">${item.name}</div><div class="c-phone"><i class="fa-solid fa-phone" style="font-size:0.8em;color:var(--gold);"></i> ${item.phone}</div></div>
                             <div class="c-badge" style="font-size:0.7em;">${item.loanId}</div>
                         </div>
@@ -1028,6 +926,7 @@
                     </div>`;
             });
         }
+
         function filterMlpfin() {
             let q = document.getElementById('mlpfinSearchInput').value.toLowerCase();
             renderMlpfin(mlpfinData.filter(c => (c.name && c.name.toLowerCase().includes(q)) || (c.phone && c.phone.includes(q)) || (c.loanId && c.loanId.toLowerCase().includes(q))));
@@ -1079,19 +978,17 @@
             if(!amt || amt <= 0) { alert("Enter valid amount!"); return; }
             let remPrin = selectedMlpfinLoan.remainingPrincipal !== undefined && selectedMlpfinLoan.remainingPrincipal !== "" ? parseFloat(selectedMlpfinLoan.remainingPrincipal) : parseFloat(selectedMlpfinLoan.principalAmount);
             if(isNaN(remPrin)) remPrin = 0;
-            
+
             let payload = { action: "addMlpfinPayment", loanId: selectedMlpfinLoan.loanId, name: selectedMlpfinLoan.name, phone: selectedMlpfinLoan.phone, amount: amt, payType: type, currentPrincipal: remPrin };
             let btn = document.getElementById('mfConfirmPayBtn'); btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> PROCESSING...`; btn.disabled = true;
 
             fetch(MLPFIN_URL, { method: "POST", body: JSON.stringify(payload) }).then(res => res.json()).then(data => {
                 btn.innerHTML = `<i class="fa-brands fa-whatsapp"></i> PAY & NOTIFY`; btn.disabled = false;
-                closeModal('mlpfinPayModal'); 
-                switchTab('customers'); 
-                loadMlpfinData();
+                closeModal('mlpfinPayModal'); switchTab('customers'); loadMlpfinData();
                 let remInfo = type === 'Principal' ? `\nNew Balance: ₹${data.newPrincipal}` : `\nBalance Remains: ₹${remPrin}`;
                 let msg = `Dear ${selectedMlpfinLoan.name},\nPayment Received for MLPFIN (${selectedMlpfinLoan.loanId}).\nAmount Paid: ₹${amt}\nType: ${type}${remInfo}\n\nThank you!`;
                 window.open(`https://wa.me/91${selectedMlpfinLoan.phone}?text=${encodeURIComponent(msg)}`, '_blank');
-            });
+            }).catch(e => { alert("Error!"); btn.disabled = false; });
         }
 
         function updateMlpfinDashboard() {
@@ -1143,7 +1040,7 @@
                             <div><div style="font-weight:bold; color:var(--gold-light); font-size:1.1em;">${item.name}</div><div style="font-size:0.85em; color:#aaa;">${item.phone} | ${item.loanId}</div></div>
                             <div style="text-align:right;"><div style="font-size:0.8em; color:#ddd;">Due Amount</div><div style="font-size:1.2em; font-weight:bold; color:#25D366;">₹${expectedInt.toFixed(2)}</div></div>
                         </div>
-                        <button class="gold-btn-outline" style="width:100%; margin-top:10px; padding:8px;" onclick='switchTab("customers"); toggleMainList("mlpfin"); setTimeout(()=>openMlpfinPay(${JSON.stringify(item)}), 500);'>PAY NOW</button>
+                        <button class="gold-btn-outline" style="width:100%; margin-top:10px; padding:8px;" onclick='switchTab("customers"); setTimeout(()=>openMlpfinPay(${JSON.stringify(item)}), 500);'>PAY NOW</button>
                     </div>`;
                 }
             });
@@ -1176,6 +1073,7 @@
                 let rows = ''; currentLedgerData.records.forEach(r => { rows += `<tr><td style="border:1px solid #000;padding:8px;">${r.date.split('T')[0]}</td><td style="border:1px solid #000;padding:8px;">${r.payType}</td><td style="border:1px solid #000;padding:8px;text-align:right;">₹${r.amount}</td></tr>`; });
                 html = `<div style="padding:20px; font-family:sans-serif; color:#000; background:#fff;">
                     <div style="text-align: center; border-bottom: 2px solid #000; padding-bottom: 15px; margin-bottom: 20px;">
+                        <img src="1000087690.png" style="height: 70px; margin-bottom: 10px;">
                         <h2 style="margin: 0; font-size: 22px; font-weight: bold;">MLPFIN LOAN LEDGER</h2>
                         <p style="margin: 5px 0 0 0; font-size: 13px; color: #444;">Generated on: ${new Date().toLocaleString('en-GB')}</p>
                     </div>
@@ -1196,6 +1094,7 @@
                 let pending = 52 - currentLedgerData.paidWeeks; pending = pending < 0 ? 0 : pending;
                 html = `<div style="padding:20px; font-family:sans-serif; color:#000; background:#fff;">
                     <div style="text-align: center; border-bottom: 2px solid #000; padding-bottom: 15px; margin-bottom: 20px;">
+                        <img src="1000087690.png" style="height: 70px; margin-bottom: 10px;">
                         <h2 style="margin: 0; font-size: 22px; font-weight: bold;">MLP DSS LEDGER</h2>
                         <p style="margin: 5px 0 0 0; font-size: 13px; color: #444;">Generated on: ${new Date().toLocaleString('en-GB')}</p>
                     </div>

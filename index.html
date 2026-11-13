@@ -60,7 +60,7 @@
         #loginScreen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at center, var(--light-blue), var(--royal-blue)); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; padding: 20px; }
         .login-box { background: rgba(0, 0, 0, 0.4); border: 2px solid var(--gold); border-radius: 16px; padding: 40px 20px; width: 100%; max-width: 350px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         .login-box img { height: 100px; margin-bottom: 20px; filter: drop-shadow(0 4px 8px rgba(212, 175, 55, 0.3));}
-        
+
         .input-field { width: 100%; padding: 15px; margin: 12px 0; border-radius: 8px; border: 1px solid var(--gold); background: rgba(0, 21, 51, 0.8); color: var(--gold-light); font-size: 1.1em; text-align: center; font-weight: bold; }
         .input-field::placeholder { color: rgba(212, 175, 55, 0.5); font-weight: normal; }
         .input-field:focus { outline: none; box-shadow: 0 0 15px rgba(212, 175, 55, 0.4); border-color: var(--gold-light); }
@@ -107,14 +107,14 @@
         .sheet-handle { width: 40px; height: 5px; background: rgba(212, 175, 55, 0.4); border-radius: 3px; margin: -15px auto 20px auto; }
         .close-modal { position: absolute; top: 20px; right: 20px; font-size: 1.5em; color: rgba(212, 175, 55, 0.6); cursor: pointer; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: rgba(255,255,255,0.05);}
         .info-box { background: rgba(0, 43, 102, 0.4); border: 1px solid rgba(212, 175, 55, 0.3); padding: 15px; border-radius: 12px; margin-bottom: 20px; cursor: pointer; transition: 0.2s;}
-        
+
         table { width: 100%; border-collapse: collapse; font-size: 0.95em; margin-top: 10px; }
         th { background: rgba(212, 175, 55, 0.15); color: var(--gold-light); padding: 12px 10px; border-bottom: 2px solid var(--gold); text-align: center; font-weight: 600;}
         td { padding: 12px 10px; border-bottom: 1px solid rgba(212, 175, 55, 0.15); text-align: center; color: #ddd;}
 
         .dash-detail-view { display: none; background: rgba(0, 43, 102, 0.3); border-radius: 12px; overflow-y: auto; max-height: 250px; border: 1px solid rgba(212, 175, 55, 0.2); margin-bottom: 20px;}
         .chart-container { background: rgba(0, 43, 102, 0.3); border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 12px; padding: 15px; margin-top: 20px; }
-        
+
         .switch { position: relative; display: inline-block; width: 50px; height: 26px; }
         .switch input { opacity: 0; width: 0; height: 0; }
         .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(255,255,255,0.1); transition: .4s; border-radius: 34px; border: 1px solid var(--gold);}
@@ -127,7 +127,7 @@
         .preview-header { background: var(--royal-blue); padding: calc(env(safe-area-inset-top, 0px) + 15px) 20px 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--gold); box-shadow: 0 4px 10px rgba(0,0,0,0.3); z-index: 10; }
         .preview-body { flex: 1; overflow-y: auto; padding: 20px; display: flex; justify-content: center; align-items: flex-start; padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 20px); }
         .paper { background: #fff; color: #000; width: 100%; max-width: 800px; padding: 0; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
-        
+
         .loader { text-align: center; color: var(--gold-light); font-weight: bold; margin-top: 50px; font-size: 1.2em; display: flex; flex-direction: column; align-items: center; gap: 15px;}
         .spinner { border: 4px solid rgba(212, 175, 55, 0.2); width: 40px; height: 40px; border-radius: 50%; border-left-color: var(--gold); animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
@@ -182,7 +182,7 @@
 
             <!-- TAB 1: CUSTOMERS -->
             <div id="tab-customers">
-                
+
                 <!-- DSS Customer View -->
                 <div id="dss-content">
                     <div style="display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-top: 5px;">
@@ -214,7 +214,7 @@
             <!-- TAB 2: DASHBOARD -->
             <div id="tab-dashboard" style="display: none;">
                 <h2 class="gold-text" style="margin-bottom: 20px; text-align: center;"><i class="fa-solid fa-chart-pie"></i> Overview</h2>
-                
+
                 <!-- DSS Dashboard -->
                 <div id="dss-dashboard">
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
@@ -382,6 +382,10 @@
                 </div>
             </div>
 
+            <!-- Common Date Picker Added Here -->
+            <label style="color: #ddd; font-weight: 600; font-size: 0.9em; display: block; text-align: center;">Payment Date</label>
+            <input type="date" id="commonPayDate" class="input-field" style="margin-bottom: 15px; font-size: 1.1em; text-align: center;" onchange="updateCommonDate(this.value)">
+
             <label style="color: #ddd; font-weight: 600; font-size: 0.9em; display: block; text-align: center;">Enter Amount (Multiples of Base Amount)</label>
             <input type="number" id="payInput" class="input-field" style="font-size: 1.5em; padding: 20px;" placeholder="₹0" oninput="calculateWeeks()">
             <div id="payCalcMsg" style="text-align: center; font-weight: bold; margin-top: -5px; margin-bottom: 20px; font-size: 0.95em; min-height: 20px;"></div>
@@ -441,27 +445,27 @@
             <div class="sheet-handle"></div>
             <div class="close-modal" onclick="closeModal('mlpfinAddModal')"><i class="fa-solid fa-xmark"></i></div>
             <h2 class="gold-text" style="text-align: center; margin-bottom: 20px;"><i class="fa-solid fa-user-plus"></i> New Loan Entry</h2>
-            
+
             <input type="text" id="mfName" class="input-field" style="text-align:left;" placeholder="Customer Name">
             <input type="tel" id="mfPhone" class="input-field" maxlength="10" style="text-align:left;" placeholder="Mobile Number">
             <input type="text" id="mfArea" class="input-field" style="text-align:left;" placeholder="Area / City">
-            
+
             <div style="display:flex; gap:10px;">
                 <input type="number" id="mfPrincipal" class="input-field" style="text-align:left; flex:2;" placeholder="Principal Amt (₹)" oninput="calcAddInt()">
                 <input type="number" id="mfInterest" class="input-field" style="text-align:left; flex:1;" placeholder="₹ Vatti/100" oninput="calcAddInt()">
             </div>
-            
+
             <select id="mfIntType" class="input-field" style="text-align:left;" onchange="calcAddInt()">
                 <option value="Monthly">Monthly</option>
                 <option value="Weekly">Weekly</option>
                 <option value="Daily">Daily</option>
             </select>
-            
+
             <div id="addIntDisplay" style="text-align:center; color:var(--gold-light); font-weight:bold; font-size:0.9em; margin:5px 0;">Calculated Interest: ₹0</div>
-            
+
             <label style="color:#aaa; font-size:0.85em; margin-left:5px;">Loan Date:</label>
             <input type="date" id="mfLoanDate" class="input-field" style="text-align:left;">
-            
+
             <button class="login-btn" id="mfSubmitBtn" onclick="submitMlpfinLoan()" style="margin-top: 15px;"><i class="fa-solid fa-check"></i> SAVE LOAN</button>
         </div>
     </div>
@@ -471,7 +475,7 @@
         <div class="bottom-sheet">
             <div class="sheet-handle"></div>
             <div class="close-modal" onclick="closeModal('mlpfinPayModal')"><i class="fa-solid fa-xmark"></i></div>
-            
+
             <div style="text-align: center; margin-bottom: 10px;">
                 <h2 class="gold-text" id="mfPayName" style="font-size: 1.5em; margin-bottom: 5px;">Name</h2>
                 <div class="c-badge" id="mfPayLoanId" style="margin-top:8px;">L-ID</div>
@@ -487,9 +491,9 @@
                 <option value="Interest">Paying Interest (வட்டி)</option>
                 <option value="Principal">Paying Principal (அசல்)</option>
             </select>
-            
+
             <input type="number" id="mfPayAmount" class="input-field" style="font-size: 1.5em; padding: 20px;" placeholder="₹ Amount" oninput="updatePayHint()">
-            
+
             <div id="mfPayHintBox" style="text-align:center; font-size:0.85em; margin-bottom:15px; color:#aaa;">
                 * Interest payment will NOT reduce the Principal.
             </div>
@@ -521,7 +525,10 @@
 
         // Global Variables
         let activeModule = 'dss'; // Context Switcher
-        let myChart = null; // Added Chart variable to fix graph issue
+        let myChart = null; 
+        
+        // COMMON DATE FOR DSS
+        let globalDssPayDate = new Date().toISOString().split('T')[0];
 
         // DSS Data
         let customerData = [];
@@ -585,7 +592,7 @@
         // --- MODULE SWITCHER ---
         function setModule(mod) {
             activeModule = mod;
-            
+
             // Set Header Name
             document.getElementById('mainHeaderTitle').innerText = (mod === 'dss') ? 'MLP ADMIN' : 'MLPFIN ADMIN';
 
@@ -671,7 +678,7 @@
                     id: id, 
                     phone: phone 
                 };
-                
+
                 fetch(type === 'dss' ? SCRIPT_URL : MLPFIN_URL, {
                     method: 'POST',
                     body: JSON.stringify(payload)
@@ -794,11 +801,20 @@
             myChart = new Chart(ctx.getContext('2d'), { type: 'bar', data: { labels: labels, datasets: [{ data: data, backgroundColor: 'rgba(212, 175, 55, 0.8)', borderColor: '#F3DA7A', borderWidth: 1, borderRadius: 4 }] }, options: { responsive: true, scales: { y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.1)' } }, x: { grid: { display: false } } }, plugins: { legend: { display: false } } } });
         }
 
+        // Keep track of date modifications
+        function updateCommonDate(val) {
+            globalDssPayDate = val;
+        }
+
         function openPay(name, phone, schemes) {
             selectedCustomer = {name, phone, schemes}; selectedBaseAmount = schemes * 100;
             document.getElementById('payName').innerText = name; document.getElementById('payPhoneText').innerText = phone;
             document.getElementById('paySchemes').innerText = schemes; document.getElementById('payBaseAmt').innerText = `₹${selectedBaseAmount}`;
             document.getElementById('payInput').value = ''; document.getElementById('payCalcMsg').innerText = '';
+            
+            // Set Common Date Field
+            document.getElementById('commonPayDate').value = globalDssPayDate;
+
             document.getElementById('payModal').style.display = 'flex';
 
             document.getElementById('submitPayBtn').innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i> LOADING...`; document.getElementById('submitPayBtn').disabled = true;
@@ -821,7 +837,10 @@
             let amt = parseFloat(document.getElementById('payInput').value) || 0; let weeksToRecord = amt / selectedBaseAmount; let startWeek = selectedPaidWeeks + 1; 
             let btn = document.getElementById('submitPayBtn'); btn.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i> SAVING...`; btn.disabled = true;
 
-            let now = new Date(); let day = String(now.getDate()).padStart(2, '0'); let month = String(now.getMonth() + 1).padStart(2, '0'); let year = now.getFullYear(); let dateStr = `${day}-${month}-${year}`; 
+            // Formats to DD-MM-YYYY using the explicitly selected common date
+            let parts = globalDssPayDate.split('-');
+            let dateStr = `${parts[2]}-${parts[1]}-${parts[0]}`; 
+
             let payloadRecords = []; 
             for(let i=0; i<weeksToRecord; i++) { payloadRecords.push({ week: startWeek + i, date: dateStr, phone: selectedCustomer.phone, name: selectedCustomer.name, amount: selectedBaseAmount, schemes: selectedCustomer.schemes }); }
 
@@ -830,7 +849,7 @@
                     closeModal('payModal');
                     switchTab('customers'); 
                     loadInitialData(); 
-                    let msg = `Dear ${selectedCustomer.name},\n\nWe have received your MLP Diwali Saving Scheme payment.\n\nAmount: ₹${amt}\nCalculated for: ${weeksToRecord} week(s)\n\nThank you!\n~ MLP Management`;
+                    let msg = `Dear ${selectedCustomer.name},\n\nWe have received your MLP Diwali Saving Scheme payment.\n\nAmount: ₹${amt}\nCalculated for: ${weeksToRecord} week(s)\nDate: ${dateStr}\n\nThank you!\n~ MLP Management`;
                     window.open(`https://wa.me/91${selectedCustomer.phone}?text=${encodeURIComponent(msg)}`, '_blank');
                 } else { alert("Error saving data!"); btn.innerHTML = `<i class="fa-brands fa-whatsapp"></i> PAY & NOTIFY`; btn.disabled = false; }
             }).catch(e => { alert("Network Error!"); btn.innerHTML = `<i class="fa-brands fa-whatsapp"></i> PAY & NOTIFY`; btn.disabled = false; });
@@ -1065,50 +1084,50 @@
         }
 
         // ==========================================
-        // SHARED PDF GENERATOR
+        // SHARED PDF GENERATOR (FIXED BLACK TEXT)
         // ==========================================
         function previewPDF() {
             if(!currentLedgerData) return;
             let html = '';
             if(currentLedgerData.module === 'mlpfin') {
-                let rows = ''; currentLedgerData.records.forEach(r => { rows += `<tr><td style="border:1px solid #000;padding:8px;">${r.date.split('T')[0]}</td><td style="border:1px solid #000;padding:8px;">${r.payType}</td><td style="border:1px solid #000;padding:8px;text-align:right;">₹${r.amount}</td></tr>`; });
+                let rows = ''; currentLedgerData.records.forEach(r => { rows += `<tr><td style="border:1px solid #000;padding:8px;color:#000;">${r.date.split('T')[0]}</td><td style="border:1px solid #000;padding:8px;color:#000;">${r.payType}</td><td style="border:1px solid #000;padding:8px;text-align:right;color:#000;">₹${r.amount}</td></tr>`; });
                 html = `<div style="padding:20px; font-family:sans-serif; color:#000; background:#fff;">
                     <div style="text-align: center; border-bottom: 2px solid #000; padding-bottom: 15px; margin-bottom: 20px;">
                         <img src="1000087690.png" style="height: 70px; margin-bottom: 10px;">
-                        <h2 style="margin: 0; font-size: 22px; font-weight: bold;">MLPFIN LOAN LEDGER</h2>
+                        <h2 style="margin: 0; font-size: 22px; font-weight: bold; color:#000;">MLPFIN LOAN LEDGER</h2>
                         <p style="margin: 5px 0 0 0; font-size: 13px; color: #444;">Generated on: ${new Date().toLocaleString('en-GB')}</p>
                     </div>
-                    <div style="margin-bottom: 15px; font-size: 15px;">
+                    <div style="margin-bottom: 15px; font-size: 15px; color:#000;">
                         <strong>Name:</strong> ${currentLedgerData.name}<br><strong>Phone:</strong> ${currentLedgerData.phone}<br><strong>Loan ID:</strong> ${currentLedgerData.loanId}
                     </div>
-                    <div style="display:flex; justify-content:space-between; background:#eee; padding:10px; border:1px solid #000; font-weight:bold;">
+                    <div style="display:flex; justify-content:space-between; background:#eee; padding:10px; border:1px solid #000; font-weight:bold; color:#000;">
                         <span>Principal: ₹${currentLedgerData.principalAmount}</span><span>Current Balance: ₹${currentLedgerData.remPrin}</span>
                     </div>
                     <table style="width:100%; border-collapse:collapse; margin-top:20px;">
-                        <tr style="background:#ddd;"><th style="border:1px solid #000;padding:8px;">Date</th><th style="border:1px solid #000;padding:8px;">Type</th><th style="border:1px solid #000;padding:8px;text-align:right;">Amount (₹)</th></tr>
+                        <tr style="background:#ddd;"><th style="border:1px solid #000;padding:8px;color:#000;">Date</th><th style="border:1px solid #000;padding:8px;color:#000;">Type</th><th style="border:1px solid #000;padding:8px;text-align:right;color:#000;">Amount (₹)</th></tr>
                         ${rows}
                     </table>
                 </div>`;
             } else {
                 let rows = ''; let total = 0; 
-                currentLedgerData.records.forEach(r => { total += parseFloat(r.amount); rows += `<tr><td style="border:1px solid #000;padding:8px;text-align:center;">Wk ${r.week}</td><td style="border:1px solid #000;padding:8px;text-align:center;">${formatCustomDate(r.date)}</td><td style="border:1px solid #000;padding:8px;text-align:right;">₹${r.amount}</td></tr>`; });
+                currentLedgerData.records.forEach(r => { total += parseFloat(r.amount); rows += `<tr><td style="border:1px solid #000;padding:8px;text-align:center;color:#000;">Wk ${r.week}</td><td style="border:1px solid #000;padding:8px;text-align:center;color:#000;">${formatCustomDate(r.date)}</td><td style="border:1px solid #000;padding:8px;text-align:right;color:#000;">₹${r.amount}</td></tr>`; });
                 let pending = 52 - currentLedgerData.paidWeeks; pending = pending < 0 ? 0 : pending;
                 html = `<div style="padding:20px; font-family:sans-serif; color:#000; background:#fff;">
                     <div style="text-align: center; border-bottom: 2px solid #000; padding-bottom: 15px; margin-bottom: 20px;">
                         <img src="1000087690.png" style="height: 70px; margin-bottom: 10px;">
-                        <h2 style="margin: 0; font-size: 22px; font-weight: bold;">MLP DSS LEDGER</h2>
+                        <h2 style="margin: 0; font-size: 22px; font-weight: bold; color:#000;">MLP DSS LEDGER</h2>
                         <p style="margin: 5px 0 0 0; font-size: 13px; color: #444;">Generated on: ${new Date().toLocaleString('en-GB')}</p>
                     </div>
-                    <div style="margin-bottom: 15px; font-size: 15px;">
+                    <div style="margin-bottom: 15px; font-size: 15px; color:#000;">
                         <strong>Name:</strong> ${currentLedgerData.name}<br><strong>Phone:</strong> ${currentLedgerData.phone}<br><strong>Total Schemes:</strong> ${currentLedgerData.schemes}
                     </div>
-                    <div style="display:flex; justify-content:space-between; background:#eee; padding:10px; border:1px solid #000; font-weight:bold;">
+                    <div style="display:flex; justify-content:space-between; background:#eee; padding:10px; border:1px solid #000; font-weight:bold; color:#000;">
                         <span>Weeks Paid: ${currentLedgerData.paidWeeks}</span><span>Remaining Weeks: ${pending}</span>
                     </div>
                     <table style="width:100%; border-collapse:collapse; margin-top:20px;">
-                        <tr style="background:#ddd;"><th style="border:1px solid #000;padding:8px;">Week</th><th style="border:1px solid #000;padding:8px;">Date</th><th style="border:1px solid #000;padding:8px;text-align:right;">Amount (₹)</th></tr>
+                        <tr style="background:#ddd;"><th style="border:1px solid #000;padding:8px;color:#000;">Week</th><th style="border:1px solid #000;padding:8px;color:#000;">Date</th><th style="border:1px solid #000;padding:8px;text-align:right;color:#000;">Amount (₹)</th></tr>
                         ${rows}
-                        <tr><td colspan="2" style="border:1px solid #000;padding:8px;text-align:right;font-weight:bold;">Total Paid</td><td style="border:1px solid #000;padding:8px;text-align:right;font-weight:bold;">₹${total}</td></tr>
+                        <tr><td colspan="2" style="border:1px solid #000;padding:8px;text-align:right;font-weight:bold;color:#000;">Total Paid</td><td style="border:1px solid #000;padding:8px;text-align:right;font-weight:bold;color:#000;">₹${total}</td></tr>
                     </table>
                 </div>`;
             }
@@ -1120,7 +1139,7 @@
             btn.innerHTML = `GENERATING...`; btn.disabled = true;
             let element = document.getElementById('paperContent');
             let fName = currentLedgerData.module === 'mlpfin' ? `MLPFIN_${currentLedgerData.loanId}.pdf` : `DSS_${currentLedgerData.name}.pdf`;
-            
+
             var opt = { margin: 0.2, filename: fName, image: { type: 'jpeg', quality: 0.98 }, html2canvas: { scale: 2, useCORS: true }, jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' } };
             html2pdf().set(opt).from(element).outputPdf('blob').then(function(pdfBlob) {
                 let file = new File([pdfBlob], fName, { type: 'application/pdf' });

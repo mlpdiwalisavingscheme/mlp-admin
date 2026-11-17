@@ -94,6 +94,7 @@
         .c-scheme { display: inline-block; background: rgba(212, 175, 55, 0.15); color: var(--gold-light); border: 1px solid var(--gold); padding: 4px 8px; border-radius: 6px; font-size: 0.8em; font-weight: bold; }
         .card-actions { display: flex; gap: 10px; width: 100%;}
         .card-actions button { flex: 1; padding: 12px 0; font-size: 0.95em; display: flex; justify-content: center; align-items: center; gap: 8px;}
+        .c-badge { display: inline-block; background: rgba(255, 255, 255, 0.1); padding: 3px 8px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.2); }
 
         /* BOTTOM NAVIGATION */
         .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; height: 75px; background: var(--royal-blue); border-top: 1px solid rgba(212, 175, 55, 0.3); display: flex; justify-content: space-evenly; align-items: center; z-index: 1000; padding-bottom: env(safe-area-inset-bottom, 0px); box-shadow: 0 -4px 15px rgba(0,0,0,0.4); }
@@ -153,7 +154,7 @@
             <div class="header-left">
                 <div class="menu-icon" onclick="toggleMenu()"><i class="fa-solid fa-bars"></i></div>
                 <div class="header-logo">
-                    <img src="1000087690.png" alt="MLP Logo">
+                    <img src="1000087690.png" alt="MLP Logo" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3135/3135695.png'">
                     <h3 class="header-title" id="mainHeaderTitle">MLP ADMIN</h3>
                 </div>
             </div>
@@ -164,7 +165,7 @@
         <!-- SIDE MENU -->
         <div class="side-menu" id="sideMenu">
             <div class="menu-header">
-                <img src="1000087690.png" alt="MLP Logo">
+                <img src="1000087690.png" alt="MLP Logo" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3135/3135695.png'">
                 <h3 class="gold-text" style="margin-top: 10px; font-size: 1.1em;">ADMINISTRATOR</h3>
             </div>
             <a href="#" class="menu-item" onclick="toggleMenu(); setModule('dss'); switchTab('customers')">
@@ -382,7 +383,6 @@
                 </div>
             </div>
 
-            <!-- Common Date Picker Added Here -->
             <label style="color: #ddd; font-weight: 600; font-size: 0.9em; display: block; text-align: center;">Payment Date</label>
             <input type="date" id="commonPayDate" class="input-field" style="margin-bottom: 15px; font-size: 1.1em; text-align: center;" onchange="updateCommonDate(this.value)">
 
@@ -526,7 +526,7 @@
         // Global Variables
         let activeModule = 'dss'; // Context Switcher
         let myChart = null; 
-        
+
         // COMMON DATE FOR DSS
         let globalDssPayDate = new Date().toISOString().split('T')[0];
 
@@ -659,7 +659,7 @@
 
 
         // ==========================================
-        // LONG PRESS DELETE LOGIC
+        // DELETE LOGIC (Long Press for DSS, Icon for MLPFIN)
         // ==========================================
         function startPress(type, id, name, phone) {
             pressTimer = window.setTimeout(function() {
@@ -811,7 +811,7 @@
             document.getElementById('payName').innerText = name; document.getElementById('payPhoneText').innerText = phone;
             document.getElementById('paySchemes').innerText = schemes; document.getElementById('payBaseAmt').innerText = `₹${selectedBaseAmount}`;
             document.getElementById('payInput').value = ''; document.getElementById('payCalcMsg').innerText = '';
-            
+
             // Set Common Date Field
             document.getElementById('commonPayDate').value = globalDssPayDate;
 
@@ -927,21 +927,41 @@
             list.forEach(item => {
                 let remPrin = item.remainingPrincipal !== undefined && item.remainingPrincipal !== "" ? parseFloat(item.remainingPrincipal) : parseFloat(item.principalAmount);
                 if(isNaN(remPrin)) remPrin = 0; 
-                let intAmt = (remPrin * parseFloat(item.interestRate || 0)) / 100;
+                
+                // Dynamic Interest Calculation (Accrued - Paid)
+                let daysElapsed = Math.max(0, Math.floor((new Date() - new Date(item.loanDate)) / (1000 * 60 * 60 * 24)));
+                let periods = 1;
+                if(item.interestType === 'Daily') periods = daysElapsed;
+                else if(item.interestType === 'Weekly') periods = Math.floor(daysElapsed / 7);
+                else if(item.interestType === 'Monthly') periods = Math.floor(daysElapsed / 30);
+                
+                let accruedInt = ((remPrin * parseFloat(item.interestRate || 0)) / 100) * periods;
+                let paidInt = 0;
+                mlpfinAllPayments.forEach(p => {
+                    if(p.loanId === item.loanId && p.payType === 'Interest') paidInt += parseFloat(p.amount);
+                });
+                let dueInt = Math.max(0, accruedInt - paidInt);
+
                 container.innerHTML += `
                     <div class="card">
-                        <div class="card-top" ontouchstart="startPress('mlpfin', '${item.loanId}', '${item.name}', '${item.phone}')" ontouchend="cancelPress()" ontouchmove="cancelPress()" onmousedown="startPress('mlpfin', '${item.loanId}', '${item.name}', '${item.phone}')" onmouseup="cancelPress()" onmouseleave="cancelPress()">
-                            <div><div class="c-name">${item.name}</div><div class="c-phone"><i class="fa-solid fa-phone" style="font-size:0.8em;color:var(--gold);"></i> ${item.phone}</div></div>
-                            <div class="c-badge" style="font-size:0.7em;">${item.loanId}</div>
+                        <div class="card-top">
+                            <div>
+                                <div class="c-name">${item.name} <i class="fa-solid fa-plus-circle" style="color:var(--gold); margin-left:8px; cursor:pointer;" onclick="openMlpfinAddForExisting('${item.name}', '${item.phone}')"></i></div>
+                                <div class="c-phone"><i class="fa-solid fa-phone" style="font-size:0.8em;color:var(--gold);"></i> ${item.phone}</div>
+                            </div>
+                            <div style="display:flex; flex-direction:column; align-items:flex-end; gap:8px;">
+                                <div class="c-badge" style="font-size:0.7em;">${item.loanId}</div>
+                                <div style="color:#ff6b6b; font-size:1.1em; cursor:pointer;" onclick="confirmDelete('mlpfin', '${item.loanId}', '${item.name}', '${item.phone}')"><i class="fa-solid fa-trash"></i></div>
+                            </div>
                         </div>
                         <div style="background:rgba(212,175,55,0.1); padding:10px; border-radius:8px; border:1px dashed var(--gold); text-align:center;">
                             <div style="font-size:0.85em; color:#ddd;">Principal / Balance</div>
                             <div style="font-size:1.4em; font-weight:bold; color:var(--gold-light); margin-top:3px;">₹${remPrin.toFixed(2)}</div>
-                            <div style="font-size:0.85em; color:#25D366; font-weight:bold; margin-top:2px;">Interest: ₹${intAmt.toFixed(2)} / ${item.interestType}</div>
+                            <div style="font-size:0.85em; color:#25D366; font-weight:bold; margin-top:2px;">Due: ₹${dueInt.toFixed(2)} / ${item.interestType}</div>
                         </div>
                         <div class="card-actions">
-                            <button class="gold-btn" onclick='openMlpfinPay(${JSON.stringify(item)})'><i class="fa-solid fa-indian-rupee-sign"></i> PAY</button>
-                            <button class="gold-btn-outline" onclick='openMlpfinLedger(${JSON.stringify(item)})'><i class="fa-solid fa-file-invoice"></i> LEDGER</button>
+                            <button class="gold-btn" onclick="openMlpfinPay('${item.loanId}')"><i class="fa-solid fa-indian-rupee-sign"></i> PAY</button>
+                            <button class="gold-btn-outline" onclick="openMlpfinLedger('${item.loanId}')"><i class="fa-solid fa-file-invoice"></i> LEDGER</button>
                         </div>
                     </div>`;
             });
@@ -957,6 +977,18 @@
             document.getElementById('mfPrincipal').value = ''; document.getElementById('mfInterest').value = ''; document.getElementById('mfLoanDate').value = new Date().toISOString().split('T')[0];
             calcAddInt(); document.getElementById('mlpfinAddModal').style.display = 'flex';
         }
+        
+        function openMlpfinAddForExisting(name, phone) {
+            document.getElementById('mfName').value = name;
+            document.getElementById('mfPhone').value = phone;
+            document.getElementById('mfArea').value = '';
+            document.getElementById('mfPrincipal').value = '';
+            document.getElementById('mfInterest').value = '';
+            document.getElementById('mfLoanDate').value = new Date().toISOString().split('T')[0];
+            calcAddInt();
+            document.getElementById('mlpfinAddModal').style.display = 'flex';
+        }
+
         function calcAddInt() {
             let prin = parseFloat(document.getElementById('mfPrincipal').value) || 0; let rate = parseFloat(document.getElementById('mfInterest').value) || 0;
             document.getElementById('addIntDisplay').innerText = `Calculated Interest: ₹${((prin * rate) / 100).toFixed(2)} / ${document.getElementById('mfIntType').value}`;
@@ -970,16 +1002,39 @@
             });
         }
 
-        function openMlpfinPay(item) {
+        function openMlpfinPay(loanId) {
+            let item = mlpfinData.find(l => l.loanId === loanId);
             selectedMlpfinLoan = item;
-            document.getElementById('mfPayName').innerText = item.name; document.getElementById('mfPayPhone').innerText = item.phone; document.getElementById('mfPayLoanId').innerText = item.loanId;
+            
+            document.getElementById('mfPayName').innerText = item.name; 
+            document.getElementById('mfPayLoanId').innerText = item.loanId;
+            
             let remPrin = item.remainingPrincipal !== undefined && item.remainingPrincipal !== "" ? parseFloat(item.remainingPrincipal) : parseFloat(item.principalAmount);
             if(isNaN(remPrin)) remPrin = 0;
+            
+            // Calculate current due for Pay Modal
+            let daysElapsed = Math.max(0, Math.floor((new Date() - new Date(item.loanDate)) / (1000 * 60 * 60 * 24)));
+            let periods = 1;
+            if(item.interestType === 'Daily') periods = daysElapsed;
+            else if(item.interestType === 'Weekly') periods = Math.floor(daysElapsed / 7);
+            else if(item.interestType === 'Monthly') periods = Math.floor(daysElapsed / 30);
+            
+            let accruedInt = ((remPrin * parseFloat(item.interestRate || 0)) / 100) * periods;
+            let paidInt = 0;
+            mlpfinAllPayments.forEach(p => {
+                if(p.loanId === item.loanId && p.payType === 'Interest') paidInt += parseFloat(p.amount);
+            });
+            let dueInt = Math.max(0, accruedInt - paidInt);
+
             document.getElementById('mfPayRemaining').innerText = `₹${remPrin.toFixed(2)}`;
-            document.getElementById('mfPayExpectedInt').innerText = `Interest: ₹${((remPrin * parseFloat(item.interestRate || 0)) / 100).toFixed(2)} / ${item.interestType}`;
-            document.getElementById('mfPayAmount').value = ''; document.getElementById('mfPayType').value = 'Interest';
-            updatePayHint(); document.getElementById('mlpfinPayModal').style.display = 'flex';
+            document.getElementById('mfPayExpectedInt').innerText = `Interest Due: ₹${dueInt.toFixed(2)} / ${item.interestType}`;
+            document.getElementById('mfPayAmount').value = ''; 
+            document.getElementById('mfPayType').value = 'Interest';
+            
+            updatePayHint(); 
+            document.getElementById('mlpfinPayModal').style.display = 'flex';
         }
+
         function updatePayHint() {
             let type = document.getElementById('mfPayType').value; let amt = parseFloat(document.getElementById('mfPayAmount').value) || 0;
             let hintBox = document.getElementById('mfPayHintBox');
@@ -1046,6 +1101,7 @@
             mlpfinData.forEach(item => {
                 let remPrin = item.remainingPrincipal !== undefined && item.remainingPrincipal !== "" ? parseFloat(item.remainingPrincipal) : parseFloat(item.principalAmount);
                 if(isNaN(remPrin) || remPrin <= 0) return;
+                
                 let isDue = false;
                 if(item.loanDate) {
                     let lDate = new Date(item.loanDate);
@@ -1054,23 +1110,49 @@
                     if(item.interestType === 'Daily') isDue = true;
                 }
                 if(isDue) {
-                    count++; let expectedInt = (remPrin * parseFloat(item.interestRate || 0)) / 100;
+                    count++; 
+                    
+                    let daysElapsed = Math.max(0, Math.floor((today - new Date(item.loanDate)) / (1000 * 60 * 60 * 24)));
+                    let periods = 1;
+                    if(item.interestType === 'Daily') periods = daysElapsed;
+                    else if(item.interestType === 'Weekly') periods = Math.floor(daysElapsed / 7);
+                    else if(item.interestType === 'Monthly') periods = Math.floor(daysElapsed / 30);
+                    
+                    let accruedInt = ((remPrin * parseFloat(item.interestRate || 0)) / 100) * periods;
+                    let paidInt = 0;
+                    mlpfinAllPayments.forEach(p => {
+                        if(p.loanId === item.loanId && p.payType === 'Interest') paidInt += parseFloat(p.amount);
+                    });
+                    let dueInt = Math.max(0, accruedInt - paidInt);
+
                     html += `<div class="card" style="margin-bottom:10px; padding:12px;">
                         <div style="display:flex; justify-content:space-between; align-items:center;">
                             <div><div style="font-weight:bold; color:var(--gold-light); font-size:1.1em;">${item.name}</div><div style="font-size:0.85em; color:#aaa;">${item.phone} | ${item.loanId}</div></div>
-                            <div style="text-align:right;"><div style="font-size:0.8em; color:#ddd;">Due Amount</div><div style="font-size:1.2em; font-weight:bold; color:#25D366;">₹${expectedInt.toFixed(2)}</div></div>
+                            <div style="text-align:right;"><div style="font-size:0.8em; color:#ddd;">Due Amount</div><div style="font-size:1.2em; font-weight:bold; color:#25D366;">₹${dueInt.toFixed(2)}</div></div>
                         </div>
-                        <button class="gold-btn-outline" style="width:100%; margin-top:10px; padding:8px;" onclick='switchTab("customers"); setTimeout(()=>openMlpfinPay(${JSON.stringify(item)}), 500);'>PAY NOW</button>
+                        <div style="display:flex; gap:10px; margin-top:10px;">
+                            <button class="gold-btn" style="flex:1; padding:8px;" onclick="switchTab('customers'); setTimeout(()=>openMlpfinPay('${item.loanId}'), 500);">PAY NOW</button>
+                            <button class="gold-btn-outline" style="flex:1; padding:8px;" onclick="sendMlpfinReminder('${item.phone}', '${item.name}', '${dueInt.toFixed(2)}')"><i class="fa-brands fa-whatsapp"></i> REMIND</button>
+                        </div>
                     </div>`;
                 }
             });
             listDiv.innerHTML = html || `<p style="text-align:center; color:#aaa; margin-top:20px;">No dues for today.</p>`;
         }
 
-        function openMlpfinLedger(item) {
-            document.getElementById('legName').innerText = item.name; document.getElementById('legPhone').innerText = `L-ID: ${item.loanId} | ${item.phone}`;
-            document.getElementById('legTypeCol').innerText = "Type"; document.getElementById('dssLedgerStats').style.display = 'none'; 
-            document.getElementById('ledgerTableBody').innerHTML = ''; document.getElementById('ledgerLoader').style.display = 'flex';
+        function sendMlpfinReminder(phone, name, amount) {
+            let msg = `Dear ${name},\n\nThis is a gentle reminder regarding your MLPFIN loan interest payment.\nDue Amount: ₹${amount}\n\nPlease make the payment today.\n\nThank you!`;
+            window.open(`https://wa.me/91${phone}?text=${encodeURIComponent(msg)}`, '_blank');
+        }
+
+        function openMlpfinLedger(loanId) {
+            let item = mlpfinData.find(l => l.loanId === loanId);
+            document.getElementById('legName').innerText = item.name; 
+            document.getElementById('legPhone').innerText = `L-ID: ${item.loanId} | ${item.phone}`;
+            document.getElementById('legTypeCol').innerText = "Type"; 
+            document.getElementById('dssLedgerStats').style.display = 'none'; 
+            document.getElementById('ledgerTableBody').innerHTML = ''; 
+            document.getElementById('ledgerLoader').style.display = 'flex';
             document.getElementById('ledgerModal').style.display = 'flex';
 
             fetch(`${MLPFIN_URL}?action=getMlpfinLedger&loanId=${item.loanId}&t=${Date.now()}`).then(res => res.json()).then(data => {
